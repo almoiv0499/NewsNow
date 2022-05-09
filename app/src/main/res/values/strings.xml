@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">News Now</string>
+    <string name="toolbar_news">TOP News</string>
+    <string name="poster_for_news">Poster for News</string>
+    <string name="image_poster_news">Image poster News</string>
+    <string name="toolbar_news_detail">Detail</string>
+    <string name="section">Section</string>
+    <string name="time_ago_string">Time</string>
+    <string name="title_of_poster">Title of poster</string>
 </resources>
