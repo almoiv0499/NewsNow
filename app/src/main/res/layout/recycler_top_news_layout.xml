@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:id="@+id/inner_layout_news"
@@ -19,7 +20,7 @@
             android:contentDescription="@string/poster_for_news" />
 
         <TextView
-            android:id="@+id/news_type"
+            android:id="@+id/section_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/section"
@@ -31,13 +32,13 @@
             android:id="@+id/time_ago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/news_type"
+            android:layout_toEndOf="@id/section_news"
             android:text="@string/time_ago"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"/>
 
         <TextView
-            android:id="@+id/description_news_poster"
+            android:id="@+id/title_news_poster"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/image_news_poster"
@@ -49,6 +50,7 @@
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/archivo_black"
             android:text="@string/poster_title_top_news"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
