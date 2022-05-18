@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="20dp"
-                    android:text="Time ago" />
+                    android:text="@string/time_ago" />
 
             </LinearLayout>
 
@@ -58,7 +59,7 @@
                 android:layout_marginEnd="25dp"
                 android:fontFamily="@font/archivo_black"
                 android:gravity="start"
-                android:text="Manchester United"
+                android:text="@string/poster_title_top_news"
                 android:textColor="@color/black"
                 android:textSize="27sp"
                 android:textStyle="bold" />
@@ -70,8 +71,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:contentDescription="news image"
-                android:src="@drawable/mu" />
+                android:contentDescription="@string/news_detail_image"
+                android:src="@drawable/ic_baseline_person_24" />
 
             <TextView
                 android:id="@+id/description_news_detail"
@@ -80,7 +81,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:text="Its post about Manchester United, me favorite football club"
+                android:text="@string/post_description"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 

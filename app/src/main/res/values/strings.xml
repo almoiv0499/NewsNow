@@ -3,9 +3,11 @@
     <string name="toolbar_top_news">Top NEWS</string>
     <string name="poster_for_news">Poster for news</string>
     <string name="section">section</string>
-    <string name="time_ago">time_ago</string>
+    <string name="time_ago">time ago</string>
     <string name="poster_title_top_news">Title</string>
     <string name="profile_icon">Profile</string>
     <string name="share_icon">Share</string>
     <string name="favorite_icon">Favorite</string>
+    <string name="news_detail_image">news image</string>
+    <string name="post_description">Description</string>
 </resources>
