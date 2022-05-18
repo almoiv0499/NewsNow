@@ -6,4 +6,6 @@
     <string name="time_ago">time_ago</string>
     <string name="poster_title_top_news">Title</string>
     <string name="profile_icon">Profile</string>
+    <string name="share_icon">Share</string>
+    <string name="favorite_icon">Favorite</string>
 </resources>
