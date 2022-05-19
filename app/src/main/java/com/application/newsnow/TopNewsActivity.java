@@ -6,9 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.Menu;
 
 import com.application.newsnow.adapter.NewsAdapter;
@@ -44,4 +41,5 @@ public class TopNewsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_top_news, menu);
         return true;
     }
+
 }
