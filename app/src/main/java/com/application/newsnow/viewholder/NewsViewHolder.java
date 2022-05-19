@@ -7,22 +7,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
 import com.application.newsnow.model.NewsPoster;
 
-public class NewsViewHolder extends RecyclerView.ViewHolder {
+public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private TextView section;
     private TextView timeAgo;
     private TextView posterTitle;
     private ImageView posterImage;
+    private OnNewsListener newsListener;
 
-    public NewsViewHolder(@NonNull View itemView) {
+    public NewsViewHolder(@NonNull View itemView, OnNewsListener newsListener) {
         super(itemView);
         section = itemView.findViewById(R.id.section_news);
         timeAgo = itemView.findViewById(R.id.time_ago);
         posterTitle = itemView.findViewById(R.id.title_news_poster);
         posterImage = itemView.findViewById(R.id.image_news_poster);
+        this.newsListener = newsListener;
+
+        itemView.setOnClickListener(this);
     }
 
     public void bind(NewsPoster poster) {
@@ -30,5 +35,10 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         timeAgo.setText(poster.getTimeAgo());
         posterTitle.setText(poster.getPosterTitle());
         posterImage.setImageResource(poster.getPosterImageResource());
+    }
+
+    @Override
+    public void onClick(View view) {
+        newsListener.onNewsClick(getAdapterPosition());
     }
 }

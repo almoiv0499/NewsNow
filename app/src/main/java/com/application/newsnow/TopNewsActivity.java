@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -14,7 +15,9 @@ import com.application.newsnow.model.NewsPoster;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopNewsActivity extends AppCompatActivity {
+public class TopNewsActivity extends AppCompatActivity implements OnNewsListener {
+
+    private List<NewsPoster> posters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,8 @@ public class TopNewsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        List<NewsPoster> posters = new ArrayList<>();
+        posters = new ArrayList<>();
+        posters.add(new NewsPoster("Sport", "7 hours ago", "MU will play with KP", R.drawable.ic_baseline_person_24));
 
         NewsAdapter adapter = new NewsAdapter();
         RecyclerView recyclerViewForNews = findViewById(R.id.posters_list);
@@ -33,7 +37,7 @@ public class TopNewsActivity extends AppCompatActivity {
         recyclerViewForNews.setLayoutManager(manager);
         recyclerViewForNews.setAdapter(adapter);
 
-        adapter.addPosters(posters);
+        adapter.addPosters(posters, this);
     }
 
     @Override
@@ -42,4 +46,13 @@ public class TopNewsActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onNewsClick(int position) {
+        Intent intent = new Intent(this, NewsDetailActivity.class);
+        intent.putExtra("section", posters.get(position).getSection());
+        intent.putExtra("time_ago", posters.get(position).getTimeAgo());
+        intent.putExtra("title", posters.get(position).getPosterTitle());
+        intent.putExtra("image", posters.get(position).getPosterImageResource());
+        startActivity(intent);
+    }
 }
