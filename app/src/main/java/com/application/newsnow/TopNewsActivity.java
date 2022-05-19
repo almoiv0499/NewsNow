@@ -41,4 +41,5 @@ public class TopNewsActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_top_news, menu);
         return true;
     }
+
 }
