@@ -1,5 +1,7 @@
 package com.application.newsnow.viewholder;
 
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,20 +19,23 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     private TextView timeAgo;
     private TextView posterTitle;
     private ImageView posterImage;
+
+    private NewsPoster newsPoster;
     private OnNewsListener newsListener;
 
-    public NewsViewHolder(@NonNull View itemView, OnNewsListener newsListener) {
+    public NewsViewHolder(@NonNull View itemView) {
         super(itemView);
         section = itemView.findViewById(R.id.section_news);
         timeAgo = itemView.findViewById(R.id.time_ago);
         posterTitle = itemView.findViewById(R.id.title_news_poster);
         posterImage = itemView.findViewById(R.id.image_news_poster);
-        this.newsListener = newsListener;
 
         itemView.setOnClickListener(this);
     }
 
-    public void bind(NewsPoster poster) {
+    public void bind(NewsPoster poster, OnNewsListener newsListener) {
+        this.newsPoster = poster;
+        this.newsListener = newsListener;
         section.setText(poster.getSection());
         timeAgo.setText(poster.getTimeAgo());
         posterTitle.setText(poster.getPosterTitle());
@@ -39,6 +44,9 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        newsListener.onNewsClick(getAdapterPosition());
+        newsListener.onNewsClick(new NewsPoster(newsPoster.getSection(),
+                newsPoster.getTimeAgo(),
+                newsPoster.getPosterTitle(),
+                newsPoster.getPosterImageResource()));
     }
 }

@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.application.newsnow.model.NewsPoster;
+
 public class NewsDetailActivity extends AppCompatActivity {
 
     @Override
@@ -29,13 +31,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24);
 
-        Intent intent = getIntent();
-        if(intent.hasExtra("section") && intent.hasExtra("time_ago")
-            && intent.hasExtra("title") && intent.hasExtra("image")) {
-            section.setText(intent.getStringExtra("section"));
-            timeAgo.setText(intent.getStringExtra("time_ago"));
-            title.setText(intent.getStringExtra("title"));
-            image.setImageResource(intent.getIntExtra("image", 0));
+        NewsPoster poster = getIntent().getParcelableExtra(getString(R.string.poster_keyIntent));
+        if(poster != null) {
+            section.setText(poster.getSection());
+            timeAgo.setText(poster.getTimeAgo());
+            title.setText(poster.getPosterTitle());
+            image.setImageResource(poster.getPosterImageResource());
         }
     }
 

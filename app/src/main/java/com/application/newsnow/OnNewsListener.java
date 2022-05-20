@@ -1,7 +1,9 @@
 package com.application.newsnow;
 
+import com.application.newsnow.model.NewsPoster;
+
 public interface OnNewsListener {
 
-    public void onNewsClick(int position);
+    public void onNewsClick(NewsPoster poster);
 
 }

@@ -28,16 +28,17 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
         setSupportActionBar(toolbar);
 
         posters = new ArrayList<>();
-        posters.add(new NewsPoster("Sport", "7 hours ago", "MU will play with KP", R.drawable.ic_baseline_person_24));
+        posters.add(new NewsPoster("Sport", "7 hours ago", "MU will play with KP",
+                R.drawable.angry_dino));
 
-        NewsAdapter adapter = new NewsAdapter();
+        NewsAdapter adapter = new NewsAdapter(this);
         RecyclerView recyclerViewForNews = findViewById(R.id.posters_list);
         recyclerViewForNews.setHasFixedSize(true);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
         recyclerViewForNews.setLayoutManager(manager);
         recyclerViewForNews.setAdapter(adapter);
 
-        adapter.addPosters(posters, this);
+        adapter.addPosters(posters);
     }
 
     @Override
@@ -47,12 +48,12 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
     }
 
     @Override
-    public void onNewsClick(int position) {
+    public void onNewsClick(NewsPoster poster) {
         Intent intent = new Intent(this, NewsDetailActivity.class);
-        intent.putExtra("section", posters.get(position).getSection());
-        intent.putExtra("time_ago", posters.get(position).getTimeAgo());
-        intent.putExtra("title", posters.get(position).getPosterTitle());
-        intent.putExtra("image", posters.get(position).getPosterImageResource());
+        intent.putExtra(getString(R.string.poster_keyIntent), new NewsPoster(poster.getSection(),
+                poster.getTimeAgo(),
+                poster.getPosterTitle(),
+                poster.getPosterImageResource()));
         startActivity(intent);
     }
 }

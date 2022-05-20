@@ -20,10 +20,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
     private List<NewsPoster> posters = new ArrayList<>();
     private OnNewsListener newsListener;
 
-    public void addPosters(List<NewsPoster> postersList, OnNewsListener newsListener) {
+    public NewsAdapter(OnNewsListener newsListener) {
+        this.newsListener = newsListener;
+    }
+
+    public void addPosters(List<NewsPoster> postersList) {
         posters.clear();
         posters.addAll(postersList);
-        this.newsListener = newsListener;
         notifyDataSetChanged();
     }
 
@@ -33,12 +36,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.recycler_top_news_layout, parent, false);
-        return new NewsViewHolder(view, newsListener);
+        return new NewsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.bind(posters.get(position));
+        holder.bind(posters.get(position), newsListener);
     }
 
     @Override
