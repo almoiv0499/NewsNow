@@ -17,8 +17,6 @@ import java.util.List;
 
 public class TopNewsActivity extends AppCompatActivity implements OnNewsListener {
 
-    private List<NewsPoster> posters;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +25,7 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        posters = new ArrayList<>();
-        posters.add(new NewsPoster("Sport", "7 hours ago", "MU will play with KP",
-                R.drawable.angry_dino));
+        List<NewsPoster> posters = new ArrayList<>();
 
         NewsAdapter adapter = new NewsAdapter(this);
         RecyclerView recyclerViewForNews = findViewById(R.id.posters_list);
@@ -50,10 +46,7 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
     @Override
     public void onNewsClick(NewsPoster poster) {
         Intent intent = new Intent(this, NewsDetailActivity.class);
-        intent.putExtra(getString(R.string.poster_keyIntent), new NewsPoster(poster.getSection(),
-                poster.getTimeAgo(),
-                poster.getPosterTitle(),
-                poster.getPosterImageResource()));
+        intent.putExtra(getString(R.string.poster_keyIntent), poster);
         startActivity(intent);
     }
 }

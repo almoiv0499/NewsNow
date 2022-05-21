@@ -1,7 +1,5 @@
 package com.application.newsnow.viewholder;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,7 +11,7 @@ import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
 import com.application.newsnow.model.NewsPoster;
 
-public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class NewsViewHolder extends RecyclerView.ViewHolder {
 
     private TextView section;
     private TextView timeAgo;
@@ -30,7 +28,12 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         posterTitle = itemView.findViewById(R.id.title_news_poster);
         posterImage = itemView.findViewById(R.id.image_news_poster);
 
-        itemView.setOnClickListener(this);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                newsListener.onNewsClick(newsPoster);
+            }
+        });
     }
 
     public void bind(NewsPoster poster, OnNewsListener newsListener) {
@@ -40,13 +43,5 @@ public class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         timeAgo.setText(poster.getTimeAgo());
         posterTitle.setText(poster.getPosterTitle());
         posterImage.setImageResource(poster.getPosterImageResource());
-    }
-
-    @Override
-    public void onClick(View view) {
-        newsListener.onNewsClick(new NewsPoster(newsPoster.getSection(),
-                newsPoster.getTimeAgo(),
-                newsPoster.getPosterTitle(),
-                newsPoster.getPosterImageResource()));
     }
 }

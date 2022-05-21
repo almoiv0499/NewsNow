@@ -21,12 +21,12 @@ public class NewsPoster implements Parcelable {
     }
 
     public NewsPoster(Parcel parcel) {
-        String[] data = new String[4];
+        String[] data = new String[3];
         parcel.readStringArray(data);
         this.section = data[0];
         this.timeAgo = data[1];
         this.posterTitle = data[2];
-        this.posterImageResource = Integer.parseInt(data[3]);
+        this.posterImageResource = parcel.readInt();
     }
 
     public String getSection() {
@@ -68,7 +68,8 @@ public class NewsPoster implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeStringArray(new String[] {section, timeAgo, posterTitle, String.valueOf(posterImageResource)});
+        parcel.writeStringArray(new String[] {section, timeAgo, posterTitle});
+        parcel.writeInt(posterImageResource);
     }
 
     public static final Parcelable.Creator<NewsPoster> CREATOR = new Parcelable.Creator<NewsPoster>() {
