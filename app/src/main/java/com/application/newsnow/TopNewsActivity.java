@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -14,7 +15,7 @@ import com.application.newsnow.model.NewsPoster;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TopNewsActivity extends AppCompatActivity {
+public class TopNewsActivity extends AppCompatActivity implements OnNewsListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class TopNewsActivity extends AppCompatActivity {
 
         List<NewsPoster> posters = new ArrayList<>();
 
-        NewsAdapter adapter = new NewsAdapter();
+        NewsAdapter adapter = new NewsAdapter(this);
         RecyclerView recyclerViewForNews = findViewById(R.id.posters_list);
         recyclerViewForNews.setHasFixedSize(true);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this);
@@ -42,4 +43,10 @@ public class TopNewsActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onNewsClick(NewsPoster poster) {
+        Intent intent = new Intent(this, NewsDetailActivity.class);
+        intent.putExtra(getString(R.string.poster_keyIntent), poster);
+        startActivity(intent);
+    }
 }

@@ -1,6 +1,5 @@
 package com.application.newsnow.adapter;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
 import com.application.newsnow.model.NewsPoster;
 import com.application.newsnow.viewholder.NewsViewHolder;
@@ -18,6 +18,11 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
     private List<NewsPoster> posters = new ArrayList<>();
+    private OnNewsListener newsListener;
+
+    public NewsAdapter(OnNewsListener newsListener) {
+        this.newsListener = newsListener;
+    }
 
     public void addPosters(List<NewsPoster> postersList) {
         posters.clear();
@@ -36,7 +41,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.bind(posters.get(position));
+        holder.bind(posters.get(position), newsListener);
     }
 
     @Override

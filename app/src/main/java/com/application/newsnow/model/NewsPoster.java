@@ -1,6 +1,9 @@
 package com.application.newsnow.model;
 
-public class NewsPoster {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class NewsPoster implements Parcelable {
 
     private String section;
     private String timeAgo;
@@ -15,6 +18,15 @@ public class NewsPoster {
         this.timeAgo = timeAgo;
         this.posterTitle = posterTitle;
         this.posterImageResource = posterImageResource;
+    }
+
+    public NewsPoster(Parcel parcel) {
+        String[] data = new String[3];
+        parcel.readStringArray(data);
+        this.section = data[0];
+        this.timeAgo = data[1];
+        this.posterTitle = data[2];
+        this.posterImageResource = parcel.readInt();
     }
 
     public String getSection() {
@@ -48,4 +60,27 @@ public class NewsPoster {
     public void setPosterImageResource(int posterImageResource) {
         this.posterImageResource = posterImageResource;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeStringArray(new String[] {section, timeAgo, posterTitle});
+        parcel.writeInt(posterImageResource);
+    }
+
+    public static final Parcelable.Creator<NewsPoster> CREATOR = new Parcelable.Creator<NewsPoster>() {
+        @Override
+        public NewsPoster createFromParcel(Parcel parcel) {
+            return new NewsPoster(parcel);
+        }
+
+        @Override
+        public NewsPoster[] newArray(int i) {
+            return new NewsPoster[i];
+        }
+    };
 }
