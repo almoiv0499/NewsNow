@@ -14,8 +14,6 @@ import com.application.newsnow.model.News;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
-    private static final String NEWS_KEY_INTENT = "poster_object";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +30,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24);
 
-        News poster = getIntent().getParcelableExtra(NEWS_KEY_INTENT);
+        News poster = getIntent().getParcelableExtra(TopNewsActivity.NEWS_KEY_INTENT);
         if(poster != null) {
             section.setText(poster.getAuthor());
             timeAgo.setText(poster.getPublishedAt());

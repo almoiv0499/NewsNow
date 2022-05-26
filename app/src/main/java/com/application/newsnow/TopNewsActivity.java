@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class TopNewsActivity extends AppCompatActivity implements OnNewsListener {
 
-    private static final String NEWS_KEY_INTENT = "poster_object";
+    public static final String NEWS_KEY_INTENT = "poster_object";
 
     private List<News> news = new ArrayList<>();
     private NewsAdapter adapter;
