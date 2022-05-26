@@ -12,11 +12,12 @@ import com.application.newsnow.R;
 import com.application.newsnow.model.News;
 import com.application.newsnow.viewholder.NewsViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
-    private List<News> news;
+    private List<News> news = new ArrayList<>();
     private OnNewsListener newsListener;
 
     public NewsAdapter(OnNewsListener newsListener) {
@@ -24,7 +25,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
     }
 
     public void addPosters(List<News> newsList) {
-        this.news = newsList;
+        news.clear();
+        news.addAll(newsList);
         notifyDataSetChanged();
     }
 

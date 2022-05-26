@@ -24,7 +24,9 @@ import retrofit2.Response;
 
 public class TopNewsActivity extends AppCompatActivity implements OnNewsListener {
 
-    private List<News> news;
+    private static final String NEWS_KEY_INTENT = "poster_object";
+
+    private List<News> news = new ArrayList<>();
     private NewsAdapter adapter;
     private RecyclerView recyclerViewForNews;
 
@@ -39,13 +41,13 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
         recyclerViewForNews = findViewById(R.id.posters_list);
         recyclerViewForNews.setHasFixedSize(true);
 
-        news = new ArrayList<>();
         adapter = new NewsAdapter(this);
 
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(TopNewsActivity.this);
+        recyclerViewForNews.setLayoutManager(manager);
+        recyclerViewForNews.setAdapter(adapter);
+
         generateCall();
-
-
-        adapter.addPosters(news);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
     @Override
     public void onNewsClick(News poster) {
         Intent intent = new Intent(this, NewsDetailActivity.class);
-        intent.putExtra(getString(R.string.poster_keyIntent), poster);
+        intent.putExtra(NEWS_KEY_INTENT, poster);
         startActivity(intent);
     }
 
@@ -70,10 +72,6 @@ public class TopNewsActivity extends AppCompatActivity implements OnNewsListener
                     news = response.body().getArticles();
 
                     adapter.addPosters(news);
-
-                    RecyclerView.LayoutManager manager = new LinearLayoutManager(TopNewsActivity.this);
-                    recyclerViewForNews.setLayoutManager(manager);
-                    recyclerViewForNews.setAdapter(adapter);
                 }
             }
 
