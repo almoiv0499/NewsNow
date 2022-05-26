@@ -4,14 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.application.newsnow.model.NewsPoster;
+import com.application.newsnow.model.News;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
 
-        TextView section = findViewById(R.id.section_news_detail);
+        TextView section = findViewById(R.id.author_news_detail);
         TextView timeAgo = findViewById(R.id.time_ago_news_detail);
         TextView title = findViewById(R.id.title_news_detail);
         ImageView image = findViewById(R.id.image_news_detail);
@@ -31,12 +30,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24);
 
-        NewsPoster poster = getIntent().getParcelableExtra(getString(R.string.poster_keyIntent));
+        News poster = getIntent().getParcelableExtra(getString(R.string.poster_keyIntent));
         if(poster != null) {
-            section.setText(poster.getSection());
-            timeAgo.setText(poster.getTimeAgo());
-            title.setText(poster.getPosterTitle());
-            image.setImageResource(poster.getPosterImageResource());
+            section.setText(poster.getAuthor());
+            timeAgo.setText(poster.getPublishedAt());
+            title.setText(poster.getTitle());
+            image.setImageResource(Integer.parseInt(poster.getUrlToImage()));
         }
     }
 
