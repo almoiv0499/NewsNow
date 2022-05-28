@@ -1,11 +1,10 @@
 package com.application.newsnow.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
-public class News implements Parcelable {
+import java.io.Serializable;
+
+public class News implements Serializable {
 
     @SerializedName("author")
     private String author;
@@ -19,6 +18,9 @@ public class News implements Parcelable {
     @SerializedName("urlToImage")
     private String urlToImage;
 
+    @SerializedName("description")
+    private String description;
+
     public News() {
     }
 
@@ -29,13 +31,12 @@ public class News implements Parcelable {
         this.urlToImage = urlToImage;
     }
 
-    public News(Parcel parcel) {
-        String[] data = new String[3];
-        parcel.readStringArray(data);
-        this.author = data[0];
-        this.publishedAt = data[1];
-        this.title = data[2];
-        this.urlToImage = data[3];
+    public News(String author, String publishedAt, String title, String urlToImage, String description) {
+        this.author = author;
+        this.publishedAt = publishedAt;
+        this.title = title;
+        this.urlToImage = urlToImage;
+        this.description = description;
     }
 
     public String getAuthor() {
@@ -70,25 +71,11 @@ public class News implements Parcelable {
         this.urlToImage = urlToImage;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeStringArray(new String[] {author, publishedAt, title, urlToImage});
+    public void setDescription(String description) {
+        this.description = description;
     }
-
-    public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {
-        @Override
-        public News createFromParcel(Parcel parcel) {
-            return new News(parcel);
-        }
-
-        @Override
-        public News[] newArray(int i) {
-            return new News[i];
-        }
-    };
 }

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.newsnow.model.News;
+import com.squareup.picasso.Picasso;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -19,9 +20,10 @@ public class NewsDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
 
-        TextView section = findViewById(R.id.author_news_detail);
-        TextView timeAgo = findViewById(R.id.time_ago_news_detail);
+        TextView author = findViewById(R.id.author_news_detail);
+        TextView publishedAt = findViewById(R.id.time_ago_news_detail);
         TextView title = findViewById(R.id.title_news_detail);
+        TextView description = findViewById(R.id.description_news_detail);
         ImageView image = findViewById(R.id.image_news_detail);
 
         Toolbar toolbarNewsDetail = findViewById(R.id.toolbar_news_detail);
@@ -30,12 +32,13 @@ public class NewsDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24);
 
-        News poster = getIntent().getParcelableExtra(TopNewsActivity.NEWS_KEY_INTENT);
+        News poster = (News) getIntent().getSerializableExtra(TopNewsActivity.NEWS_KEY_INTENT);
         if(poster != null) {
-            section.setText(poster.getAuthor());
-            timeAgo.setText(poster.getPublishedAt());
+            author.setText(poster.getAuthor());
+            publishedAt.setText(poster.getPublishedAt());
             title.setText(poster.getTitle());
-            image.setImageResource(Integer.parseInt(poster.getUrlToImage()));
+            description.setText(poster.getDescription());
+            Picasso.get().load(poster.getUrlToImage()).into(image);
         }
     }
 
