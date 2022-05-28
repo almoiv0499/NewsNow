@@ -9,39 +9,38 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
-import com.application.newsnow.model.NewsPoster;
+import com.application.newsnow.model.News;
+import com.squareup.picasso.Picasso;
 
 public class NewsViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView section;
-    private TextView timeAgo;
-    private TextView posterTitle;
-    private ImageView posterImage;
+    private TextView author, publishedAt, title;
+    private ImageView urlToImage;
 
-    private NewsPoster newsPoster;
+    private News news;
     private OnNewsListener newsListener;
 
     public NewsViewHolder(@NonNull View itemView) {
         super(itemView);
-        section = itemView.findViewById(R.id.section_news);
-        timeAgo = itemView.findViewById(R.id.time_ago);
-        posterTitle = itemView.findViewById(R.id.title_news_poster);
-        posterImage = itemView.findViewById(R.id.image_news_poster);
+        author = itemView.findViewById(R.id.author_news);
+        publishedAt = itemView.findViewById(R.id.time_ago);
+        title = itemView.findViewById(R.id.title_news_poster);
+        urlToImage = itemView.findViewById(R.id.image_news_poster);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newsListener.onNewsClick(newsPoster);
+                newsListener.onNewsClick(news);
             }
         });
     }
 
-    public void bind(NewsPoster poster, OnNewsListener newsListener) {
-        this.newsPoster = poster;
+    public void bind(News news, OnNewsListener newsListener) {
+        this.news = news;
         this.newsListener = newsListener;
-        section.setText(poster.getSection());
-        timeAgo.setText(poster.getTimeAgo());
-        posterTitle.setText(poster.getPosterTitle());
-        posterImage.setImageResource(poster.getPosterImageResource());
+        author.setText(news.getAuthor());
+        publishedAt.setText(news.getPublishedAt());
+        title.setText(news.getTitle());
+        Picasso.get().load(news.getUrlToImage()).into(urlToImage);
     }
 }

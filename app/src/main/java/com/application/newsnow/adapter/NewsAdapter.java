@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
-import com.application.newsnow.model.NewsPoster;
+import com.application.newsnow.model.News;
 import com.application.newsnow.viewholder.NewsViewHolder;
 
 import java.util.ArrayList;
@@ -17,16 +17,16 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
-    private List<NewsPoster> posters = new ArrayList<>();
+    private List<News> news = new ArrayList<>();
     private OnNewsListener newsListener;
 
     public NewsAdapter(OnNewsListener newsListener) {
         this.newsListener = newsListener;
     }
 
-    public void addPosters(List<NewsPoster> postersList) {
-        posters.clear();
-        posters.addAll(postersList);
+    public void addPosters(List<News> newsList) {
+        news.clear();
+        news.addAll(newsList);
         notifyDataSetChanged();
     }
 
@@ -41,11 +41,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        holder.bind(posters.get(position), newsListener);
+        holder.bind(news.get(position), newsListener);
     }
 
     @Override
     public int getItemCount() {
-        return posters.size();
+        return news.size();
     }
 }

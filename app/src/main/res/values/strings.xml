@@ -12,5 +12,4 @@
     <string name="post_description">Description</string>
     <string name="title_news_detail">Title</string>
     <string name="image_news_details">Image News details</string>
-    <string name="poster_keyIntent">poster_object</string>
 </resources>

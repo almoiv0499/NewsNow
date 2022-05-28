@@ -21,7 +21,7 @@
             android:contentDescription="@string/poster_for_news" />
 
         <TextView
-            android:id="@+id/section_news"
+            android:id="@+id/author_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/section"
@@ -33,7 +33,7 @@
             android:id="@+id/time_ago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/section_news"
+            android:layout_toEndOf="@id/author_news"
             android:text="@string/time_ago"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"/>

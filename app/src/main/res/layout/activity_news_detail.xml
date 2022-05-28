@@ -34,7 +34,7 @@
             android:layout_height="wrap_content" >
 
             <TextView
-                android:id="@+id/section_news_detail"
+                android:id="@+id/author_news_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/section"
@@ -51,7 +51,7 @@
                 android:text="@string/time_ago"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                app:layout_constraintStart_toEndOf="@id/section_news_detail"
+                app:layout_constraintStart_toEndOf="@id/author_news_detail"
                 app:layout_constraintTop_toTopOf="@id/layout_for_scrollView"
                 />
 
@@ -69,7 +69,7 @@
                 android:fontFamily="@font/archivo_black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/section_news_detail"
+                app:layout_constraintTop_toBottomOf="@id/author_news_detail"
                 />
 
             <ImageView
@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/post_description"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 android:layout_marginTop="30dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
