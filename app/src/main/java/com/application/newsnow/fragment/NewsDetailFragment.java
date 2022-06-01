@@ -22,6 +22,8 @@ import com.squareup.picasso.Picasso;
 
 public class NewsDetailFragment extends Fragment {
 
+    private static final String NEWS_KEY_BUNDLE = "news_object";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -35,23 +37,23 @@ public class NewsDetailFragment extends Fragment {
         ImageView image = view.findViewById(R.id.image_news_detail);
 
         Toolbar toolbarNewsDetail = view.findViewById(R.id.toolbar_news_detail);
-        ((TopNewsActivity)getActivity()).setSupportActionBar(toolbarNewsDetail);
+        ((TopNewsActivity) getActivity()).setSupportActionBar(toolbarNewsDetail);
         setHasOptionsMenu(true);
 
-        ((TopNewsActivity)getActivity())
+        ((TopNewsActivity) getActivity())
                 .getSupportActionBar()
                 .setDisplayHomeAsUpEnabled(true);
 
-        ((TopNewsActivity)getActivity())
+        ((TopNewsActivity) getActivity())
                 .getSupportActionBar()
                 .setDisplayShowTitleEnabled(false);
 
-        ((TopNewsActivity)getActivity())
+        ((TopNewsActivity) getActivity())
                 .getSupportActionBar()
                 .setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_new_24);
 
-        News poster = (News) getArguments().getSerializable(TopNewsFragment.NEWS_KEY_INTENT);
-        if(poster != null) {
+        News poster = (News) getArguments().getSerializable(NEWS_KEY_BUNDLE);
+        if (poster != null) {
             author.setText(poster.getAuthor());
             publishedAt.setText(poster.getPublishedAt());
             title.setText(poster.getTitle());
@@ -76,4 +78,13 @@ public class NewsDetailFragment extends Fragment {
         }
         return true;
     }
+
+    public static NewsDetailFragment getInstance(News news) {
+        NewsDetailFragment fragment = new NewsDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(NEWS_KEY_BUNDLE, news);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 }

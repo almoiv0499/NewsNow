@@ -33,8 +33,7 @@ import retrofit2.Response;
 
 public class TopNewsFragment extends Fragment implements OnNewsListener {
 
-    public static final String NEWS_KEY_INTENT = "poster_object";
-    public static final String RETURN_BACK = "return back";
+    private static final String RETURN_BACK = "return_back";
 
     private List<News> news = new ArrayList<>();
     private NewsAdapter adapter;
@@ -69,20 +68,17 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_top_news, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_top_news, menu);
     }
 
     @Override
     public void onNewsClick(News poster) {
 
-        Fragment fragment = new NewsDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(NEWS_KEY_INTENT, poster);
-        fragment.setArguments(bundle);
+        Fragment fragment = NewsDetailFragment.getInstance(poster);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.news_fragment_container, fragment, RETURN_BACK)
+                .add(R.id.news_fragment_container, fragment, RETURN_BACK)
                 .addToBackStack(RETURN_BACK)
                 .commit();
     }
