@@ -12,11 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".NewsDetailActivity"
-            android:exported="false"/>
-        <activity
             android:name=".TopNewsActivity"
-            android:exported="true">
+            android:exported="true"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
