@@ -6,21 +6,21 @@ import java.util.List;
 
 public class ListNews {
 
-    @SerializedName("articles")
-    private List<News> articles;
+    @SerializedName("results")
+    private List<News> results;
 
     public ListNews() {
     }
 
-    public ListNews(List<News> articles) {
-        this.articles = articles;
+    public ListNews(List<News> results) {
+        this.results = results;
     }
 
-    public List<News> getArticles() {
-        return articles;
+    public List<News> getResults() {
+        return results;
     }
 
-    public void setArticles(List<News> articles) {
-        this.articles = articles;
+    public void setResults(List<News> results) {
+        this.results = results;
     }
 }

@@ -91,7 +91,7 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
                 if (response.isSuccessful()) {
                     load.setVisibility(View.GONE);
 
-                    news = response.body().getArticles();
+                    news = response.body().getResults();
 
                     adapter.addPosters(news);
                 }

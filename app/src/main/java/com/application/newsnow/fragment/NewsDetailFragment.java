@@ -1,8 +1,10 @@
 package com.application.newsnow.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -18,12 +20,19 @@ import android.widget.TextView;
 import com.application.newsnow.R;
 import com.application.newsnow.TopNewsActivity;
 import com.application.newsnow.model.News;
+import com.application.newsnow.viewholder.NewsViewHolder;
 import com.squareup.picasso.Picasso;
+
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 public class NewsDetailFragment extends Fragment {
 
     private static final String NEWS_KEY_BUNDLE = "news_object";
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,12 +63,13 @@ public class NewsDetailFragment extends Fragment {
 
         News poster = (News) getArguments().getSerializable(NEWS_KEY_BUNDLE);
         if (poster != null) {
-            author.setText(poster.getAuthor());
-            publishedAt.setText(poster.getPublishedAt());
+            author.setText(convertAuthor(poster.getMultimedia().get(NewsViewHolder.INDEX_ZERO).getAuthor()));
+            publishedAt.setText(convertDateTime(poster.getPublishedAt()));
             title.setText(poster.getTitle());
             description.setText(poster.getDescription());
-            Picasso.get().load(poster.getUrlToImage()).into(image);
+            Picasso.get().load(poster.getMultimedia().get(NewsViewHolder.INDEX_ZERO).getImage()).into(image);
         }
+
         return view;
     }
 
@@ -85,6 +95,21 @@ public class NewsDetailFragment extends Fragment {
         bundle.putSerializable(NEWS_KEY_BUNDLE, news);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String convertDateTime(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter
+                .ofPattern(NewsViewHolder.PATTERN_DATE_TIME)
+                .withZone(ZoneId.systemDefault());
+
+        OffsetDateTime input = OffsetDateTime.parse(date);
+        Instant instant = input.toInstant();
+        return formatter.format(instant);
+    }
+
+    private String convertAuthor(String author) {
+        return author.split(NewsViewHolder.SPLIT_WORD)[NewsViewHolder.INDEX_ZERO];
     }
 
 }
