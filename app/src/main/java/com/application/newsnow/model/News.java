@@ -1,11 +1,24 @@
 package com.application.newsnow.model;
 
+import android.annotation.SuppressLint;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 public class News implements Serializable {
+
+    private static final String PATTERN_DATE_TIME = "dd.MM.yyyy HH:ss";
 
     @SerializedName("published_date")
     private String publishedAt;
@@ -30,7 +43,9 @@ public class News implements Serializable {
     }
 
     public String getPublishedAt() {
-        return publishedAt;
+        SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE_TIME);
+
+        return formatter.format(new Date());
     }
 
     public void setPublishedAt(String publishedAt) {

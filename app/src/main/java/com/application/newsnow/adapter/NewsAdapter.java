@@ -1,12 +1,10 @@
 package com.application.newsnow.adapter;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.OnNewsListener;
@@ -41,7 +39,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
         return new NewsViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         holder.bind(news.get(position), newsListener);

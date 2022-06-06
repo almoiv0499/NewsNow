@@ -1,5 +1,6 @@
 package com.application.newsnow.viewholder;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,15 +23,10 @@ import java.time.format.DateTimeFormatter;
 
 public class NewsViewHolder extends RecyclerView.ViewHolder {
 
-    public static String PATTERN_DATE_TIME = "dd.MM.yyyy HH:ss";
-    public static String SPLIT_WORD = " for";
-    public static int INDEX_ZERO = 0;
-
     private TextView author, publishedAt, title;
     private ImageView urlToImage;
 
     private News news;
-    private Multimedia multimedia;
     private OnNewsListener newsListener;
 
     public NewsViewHolder(@NonNull View itemView) {
@@ -48,28 +44,13 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(News news, OnNewsListener newsListener) {
         this.news = news;
         this.newsListener = newsListener;
-        author.setText(convertAuthor(news.getMultimedia().get(INDEX_ZERO).getAuthor()));
-        publishedAt.setText(convertDateTime(news.getPublishedAt()));
+        author.setText(news.getMultimedia().get(0).getAuthor());
+        publishedAt.setText(news.getPublishedAt());
         title.setText(news.getTitle());
-        Picasso.get().load(news.getMultimedia().get(INDEX_ZERO).getImage()).into(urlToImage);
+        Picasso.get().load(news.getMultimedia().get(0).getImage()).into(urlToImage);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private String convertDateTime(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern(PATTERN_DATE_TIME)
-                .withZone(ZoneId.systemDefault());
-
-        OffsetDateTime input = OffsetDateTime.parse(date);
-        Instant instant = input.toInstant();
-        return formatter.format(instant);
-    }
-
-    private String convertAuthor(String author) {
-        return author.split(SPLIT_WORD)[INDEX_ZERO];
-    }
 }

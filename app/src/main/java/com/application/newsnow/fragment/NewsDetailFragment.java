@@ -63,11 +63,11 @@ public class NewsDetailFragment extends Fragment {
 
         News poster = (News) getArguments().getSerializable(NEWS_KEY_BUNDLE);
         if (poster != null) {
-            author.setText(convertAuthor(poster.getMultimedia().get(NewsViewHolder.INDEX_ZERO).getAuthor()));
-            publishedAt.setText(convertDateTime(poster.getPublishedAt()));
+            author.setText(poster.getMultimedia().get(0).getAuthor());
+            publishedAt.setText(poster.getPublishedAt());
             title.setText(poster.getTitle());
             description.setText(poster.getDescription());
-            Picasso.get().load(poster.getMultimedia().get(NewsViewHolder.INDEX_ZERO).getImage()).into(image);
+            Picasso.get().load(poster.getMultimedia().get(0).getImage()).into(image);
         }
 
         return view;
@@ -95,21 +95,6 @@ public class NewsDetailFragment extends Fragment {
         bundle.putSerializable(NEWS_KEY_BUNDLE, news);
         fragment.setArguments(bundle);
         return fragment;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private String convertDateTime(String date) {
-        DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern(NewsViewHolder.PATTERN_DATE_TIME)
-                .withZone(ZoneId.systemDefault());
-
-        OffsetDateTime input = OffsetDateTime.parse(date);
-        Instant instant = input.toInstant();
-        return formatter.format(instant);
-    }
-
-    private String convertAuthor(String author) {
-        return author.split(NewsViewHolder.SPLIT_WORD)[NewsViewHolder.INDEX_ZERO];
     }
 
 }

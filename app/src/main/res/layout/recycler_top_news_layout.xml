@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="350dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     android:layout_marginTop="20dp"
@@ -12,14 +12,14 @@
     <RelativeLayout
         android:id="@+id/inner_layout_news"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:selectableItemBackground">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/image_news_poster"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             android:contentDescription="@string/poster_for_news"/>
 
         <TextView
@@ -29,6 +29,7 @@
             android:text="@string/section"
             android:textColor="@color/white"
             android:textSize="11sp"
+            android:fontFamily="@font/archivo_black"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             />
@@ -41,6 +42,7 @@
             android:text="@string/time_ago"
             android:textColor="@color/white"
             android:textSize="11sp"
+            android:fontFamily="@font/archivo_black"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"/>
 

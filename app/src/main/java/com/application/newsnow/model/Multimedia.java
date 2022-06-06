@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Multimedia {
 
+    private static final String SPLIT_WORD = " for";
+
     @SerializedName("url")
     private String image;
 
@@ -14,15 +16,16 @@ public class Multimedia {
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getAuthor() {
+        return author.split(SPLIT_WORD)[0];
     }
 
-    public String getAuthor() {
-        return author;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public void setAuthor(String author) {
         this.author = author;
     }
+
 }
