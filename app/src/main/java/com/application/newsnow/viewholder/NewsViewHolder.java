@@ -1,25 +1,17 @@
 package com.application.newsnow.viewholder;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
-import com.application.newsnow.model.Multimedia;
 import com.application.newsnow.model.News;
 import com.squareup.picasso.Picasso;
-
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public class NewsViewHolder extends RecyclerView.ViewHolder {
 

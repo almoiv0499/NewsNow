@@ -1,18 +1,10 @@
 package com.application.newsnow.model;
 
-import android.annotation.SuppressLint;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 

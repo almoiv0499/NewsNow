@@ -20,13 +20,7 @@ import android.widget.TextView;
 import com.application.newsnow.R;
 import com.application.newsnow.TopNewsActivity;
 import com.application.newsnow.model.News;
-import com.application.newsnow.viewholder.NewsViewHolder;
 import com.squareup.picasso.Picasso;
-
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public class NewsDetailFragment extends Fragment {
 
