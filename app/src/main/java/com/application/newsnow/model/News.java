@@ -36,7 +36,6 @@ public class News implements Serializable {
 
     public String getPublishedAt() {
         SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE_TIME);
-
         return formatter.format(new Date());
     }
 

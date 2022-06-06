@@ -26,7 +26,6 @@ public class NewsDetailFragment extends Fragment {
 
     private static final String NEWS_KEY_BUNDLE = "news_object";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
