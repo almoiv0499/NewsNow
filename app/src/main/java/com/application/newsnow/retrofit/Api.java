@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 public interface Api {
 
-    @GET("v2/top-headlines?category=sports&country=ru&apiKey=a3248496b7db4d28bf856fce02fc7872")
+    @GET("svc/topstories/v2/arts.json?api-key=JXFqWu6xeReKqjCNS2GtlA6OEfwhyI9a")
     Call<ListNews> getAllNews();
 
 }

@@ -1,8 +1,10 @@
 package com.application.newsnow.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -54,12 +56,13 @@ public class NewsDetailFragment extends Fragment {
 
         News poster = (News) getArguments().getSerializable(NEWS_KEY_BUNDLE);
         if (poster != null) {
-            author.setText(poster.getAuthor());
+            author.setText(poster.getMultimedia().get(0).getAuthor());
             publishedAt.setText(poster.getPublishedAt());
             title.setText(poster.getTitle());
             description.setText(poster.getDescription());
-            Picasso.get().load(poster.getUrlToImage()).into(image);
+            Picasso.get().load(poster.getMultimedia().get(0).getImage()).into(image);
         }
+
         return view;
     }
 

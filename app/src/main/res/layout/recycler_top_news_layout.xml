@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     android:layout_marginTop="20dp"
@@ -12,20 +12,25 @@
     <RelativeLayout
         android:id="@+id/inner_layout_news"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/image_news_poster"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/poster_for_news" />
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/poster_for_news"/>
 
         <TextView
             android:id="@+id/author_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/section"
-            android:layout_marginStart="20dp"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="@font/archivo_black"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             />
 
@@ -33,10 +38,13 @@
             android:id="@+id/time_ago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/author_news"
+            android:layout_below="@id/author_news"
             android:text="@string/time_ago"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"/>
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:fontFamily="@font/archivo_black"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/title_news_poster"
@@ -45,14 +53,13 @@
             android:layout_alignStart="@id/image_news_poster"
             android:layout_alignEnd="@id/image_news_poster"
             android:layout_alignBottom="@id/image_news_poster"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/archivo_black"
-            android:text="@string/poster_title_top_news"
-            android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
     </RelativeLayout>

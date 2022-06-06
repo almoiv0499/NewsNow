@@ -1,5 +1,6 @@
 package com.application.newsnow.viewholder;
 
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,9 +39,10 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
     public void bind(News news, OnNewsListener newsListener) {
         this.news = news;
         this.newsListener = newsListener;
-        author.setText(news.getAuthor());
+        author.setText(news.getMultimedia().get(0).getAuthor());
         publishedAt.setText(news.getPublishedAt());
         title.setText(news.getTitle());
-        Picasso.get().load(news.getUrlToImage()).into(urlToImage);
+        Picasso.get().load(news.getMultimedia().get(0).getImage()).into(urlToImage);
     }
+
 }

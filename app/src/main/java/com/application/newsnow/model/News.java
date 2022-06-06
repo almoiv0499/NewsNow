@@ -1,54 +1,42 @@
 package com.application.newsnow.model;
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 public class News implements Serializable {
 
-    @SerializedName("author")
-    private String author;
+    private static final String PATTERN_DATE_TIME = "dd.MM.yyyy HH:ss";
 
-    @SerializedName("publishedAt")
+    @SerializedName("published_date")
     private String publishedAt;
 
     @SerializedName("title")
     private String title;
 
-    @SerializedName("urlToImage")
-    private String urlToImage;
-
-    @SerializedName("description")
+    @SerializedName("abstract")
     private String description;
+
+    @SerializedName("multimedia")
+    private List<Multimedia> multimedia;
 
     public News() {
     }
 
-    public News(String author, String publishedAt, String title, String urlToImage) {
-        this.author = author;
+    public News(String publishedAt, String title, String description, List<Multimedia> multimedia) {
         this.publishedAt = publishedAt;
         this.title = title;
-        this.urlToImage = urlToImage;
-    }
-
-    public News(String author, String publishedAt, String title, String urlToImage, String description) {
-        this.author = author;
-        this.publishedAt = publishedAt;
-        this.title = title;
-        this.urlToImage = urlToImage;
         this.description = description;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+        this.multimedia = multimedia;
     }
 
     public String getPublishedAt() {
-        return publishedAt;
+        SimpleDateFormat formatter = new SimpleDateFormat(PATTERN_DATE_TIME);
+        return formatter.format(new Date());
     }
 
     public void setPublishedAt(String publishedAt) {
@@ -63,19 +51,19 @@ public class News implements Serializable {
         this.title = title;
     }
 
-    public String getUrlToImage() {
-        return urlToImage;
-    }
-
-    public void setUrlToImage(String urlToImage) {
-        this.urlToImage = urlToImage;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<Multimedia> getMultimedia() {
+        return multimedia;
+    }
+
+    public void setMultimedia(List<Multimedia> multimedia) {
+        this.multimedia = multimedia;
     }
 }
