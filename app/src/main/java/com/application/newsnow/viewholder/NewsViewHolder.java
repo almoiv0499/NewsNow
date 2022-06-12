@@ -1,6 +1,5 @@
 package com.application.newsnow.viewholder;
 
-import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,9 +7,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
 import com.application.newsnow.model.News;
+import com.application.newsnow.util.OnNewsListener;
 import com.squareup.picasso.Picasso;
 
 public class NewsViewHolder extends RecyclerView.ViewHolder {
@@ -28,12 +27,7 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         title = itemView.findViewById(R.id.title_news_poster);
         urlToImage = itemView.findViewById(R.id.image_news_poster);
 
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newsListener.onNewsClick(news);
-            }
-        });
+        itemView.setOnClickListener(view -> newsListener.onNewsClick(news));
     }
 
     public void bind(News news, OnNewsListener newsListener) {

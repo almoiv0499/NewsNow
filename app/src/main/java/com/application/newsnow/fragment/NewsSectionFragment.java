@@ -16,37 +16,41 @@ import android.widget.Toast;
 
 import com.application.newsnow.R;
 import com.application.newsnow.adapter.NewsAdapter;
-import com.application.newsnow.enums.Category;
 import com.application.newsnow.model.ListNews;
 import com.application.newsnow.model.News;
+import com.application.newsnow.model.Section;
 import com.application.newsnow.retrofit.RetrofitInstance;
 import com.application.newsnow.util.OnNewsListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TopNewsFragment extends Fragment implements OnNewsListener {
+public class NewsSectionFragment extends Fragment implements OnNewsListener {
 
-    private static final String RETURN_BACK = "return_back";
+    private static final String SECTION_KEY_BUNDLE = "section_key";
+    private static final String RETURN = "return";
     private static final String FAIL = "Oops, something wrong!";
 
     private List<News> news = new ArrayList<>();
     private NewsAdapter adapter;
+    private Section section;
+
     private ProgressBar load;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_news_section, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_top_news, container, false);
+        section = (Section) getArguments().getSerializable(SECTION_KEY_BUNDLE);
+        load = view.findViewById(R.id.load_news_section);
 
         setToolbar(view);
-
-        load = view.findViewById(R.id.load);
 
         initRecyclerView(view);
 
@@ -55,26 +59,8 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
         return view;
     }
 
-    private void setToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu_top_news);
-    }
-
-    @Override
-    public void onNewsClick(News poster) {
-        Fragment fragment = NewsDetailFragment.getInstance(poster);
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.news_fragment_container, fragment, RETURN_BACK)
-                .addToBackStack(RETURN_BACK)
-                .commit();
-    }
-
     private void generateCall() {
-        Call<ListNews> call = RetrofitInstance.getInstance()
-                .getApi()
-                .getAllNews(Category.HOME.getCategory());
-
+        Call<ListNews> call = RetrofitInstance.getInstance().getApi().getAllNews(section.getSection());
         call.enqueue(new Callback<ListNews>() {
             @Override
             public void onResponse(@NonNull Call<ListNews> call, @NonNull Response<ListNews> response) {
@@ -94,14 +80,41 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
         });
     }
 
+    @Override
+    public void onNewsClick(News poster) {
+        Fragment fragment = NewsDetailFragment.getInstance(poster);
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.section_fragment_container, fragment, RETURN)
+                .addToBackStack(RETURN)
+                .commit();
+    }
+
+    public static NewsSectionFragment getInstance(Section section) {
+        NewsSectionFragment fragment = new NewsSectionFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(SECTION_KEY_BUNDLE, section);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    private void setToolbar(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar_news_section_feed);
+        toolbar.inflateMenu(R.menu.menu_top_news);
+        toolbar.setTitle(section.getSection().toUpperCase(Locale.ROOT));
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_new_24);
+        toolbar.setNavigationOnClickListener(viewClick -> getActivity().onBackPressed());
+    }
+
     private void initRecyclerView(View view) {
-        RecyclerView recyclerViewForNews = view.findViewById(R.id.posters_list);
-        recyclerViewForNews.setHasFixedSize(true);
+        RecyclerView recyclerView = view.findViewById(R.id.list_news_section);
+        recyclerView.setHasFixedSize(true);
 
         adapter = new NewsAdapter(this);
-
         RecyclerView.LayoutManager manager = new LinearLayoutManager(view.getContext());
-        recyclerViewForNews.setLayoutManager(manager);
-        recyclerViewForNews.setAdapter(adapter);
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
     }
 }
