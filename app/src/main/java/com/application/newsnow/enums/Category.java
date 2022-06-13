@@ -12,7 +12,7 @@ public enum Category {
     REALESTATE("realestate"),
     MOVIES("movies"),
     SPORTS("sports"),
-    HOME("home");
+    TOP("world");
 
     private String category;
 

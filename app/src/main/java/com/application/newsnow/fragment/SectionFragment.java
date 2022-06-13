@@ -50,11 +50,11 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
 
     @Override
     public void onSectionListener(Section section) {
-        Fragment fragment = NewsSectionFragment.getInstance(section);
+        Fragment fragment = SectionNewsFeedFragment.getInstance(section);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.section_fragment_container, fragment, RETURN)
+                .add(R.id.news_fragment_container, fragment, RETURN)
                 .addToBackStack(RETURN)
                 .commit();
     }

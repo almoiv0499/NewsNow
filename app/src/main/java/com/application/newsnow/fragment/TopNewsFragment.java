@@ -73,7 +73,7 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
     private void generateCall() {
         Call<ListNews> call = RetrofitInstance.getInstance()
                 .getApi()
-                .getAllNews(Category.HOME.getCategory());
+                .getAllNews(Category.TOP.getCategory());
 
         call.enqueue(new Callback<ListNews>() {
             @Override

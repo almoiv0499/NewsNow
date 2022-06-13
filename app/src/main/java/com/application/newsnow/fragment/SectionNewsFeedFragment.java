@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewsSectionFragment extends Fragment implements OnNewsListener {
+public class SectionNewsFeedFragment extends Fragment implements OnNewsListener {
 
     private static final String SECTION_KEY_BUNDLE = "section_key";
     private static final String RETURN = "return";
@@ -86,13 +86,13 @@ public class NewsSectionFragment extends Fragment implements OnNewsListener {
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.section_fragment_container, fragment, RETURN)
+                .add(R.id.news_fragment_container, fragment, RETURN)
                 .addToBackStack(RETURN)
                 .commit();
     }
 
-    public static NewsSectionFragment getInstance(Section section) {
-        NewsSectionFragment fragment = new NewsSectionFragment();
+    public static SectionNewsFeedFragment getInstance(Section section) {
+        SectionNewsFeedFragment fragment = new SectionNewsFeedFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(SECTION_KEY_BUNDLE, section);
         fragment.setArguments(bundle);
