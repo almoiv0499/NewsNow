@@ -1,8 +1,10 @@
-package com.application.newsnow;
+package com.application.newsnow.activity;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
+import com.application.newsnow.R;
 
 public class TopNewsActivity extends AppCompatActivity {
 

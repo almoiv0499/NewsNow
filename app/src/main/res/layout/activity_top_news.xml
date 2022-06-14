@@ -6,4 +6,4 @@
     android:name="com.application.newsnow.fragment.TopNewsFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TopNewsActivity" />
+    tools:context=".activity.TopNewsActivity" />

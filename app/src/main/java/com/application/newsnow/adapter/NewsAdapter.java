@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.application.newsnow.OnNewsListener;
 import com.application.newsnow.R;
 import com.application.newsnow.model.News;
+import com.application.newsnow.util.OnNewsListener;
 import com.application.newsnow.viewholder.NewsViewHolder;
 
 import java.util.ArrayList;

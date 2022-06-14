@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">News Now</string>
-    <string name="toolbar_top_news">Top NEWS</string>
+    <string name="toolbar_top_news">All news</string>
     <string name="poster_for_news">Poster for news</string>
     <string name="section">section</string>
     <string name="time_ago">time ago</string>
@@ -12,4 +12,5 @@
     <string name="post_description">Description</string>
     <string name="title_news_detail">Title</string>
     <string name="image_news_details">Image News details</string>
+    <string name="topic_item">section item</string>
 </resources>
