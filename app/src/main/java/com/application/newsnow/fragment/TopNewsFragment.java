@@ -60,14 +60,15 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
         toolbar.inflateMenu(R.menu.menu_top_news);
     }
 
-    @Override
-    public void onNewsClick(News poster) {
-        Fragment fragment = NewsDetailFragment.getInstance(poster);
+    private void initRecyclerView(View view) {
+        RecyclerView recyclerViewForNews = view.findViewById(R.id.posters_list);
+        recyclerViewForNews.setHasFixedSize(true);
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .add(R.id.news_fragment_container, fragment, RETURN_BACK)
-                .addToBackStack(RETURN_BACK)
-                .commit();
+        adapter = new NewsAdapter(this);
+
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(view.getContext());
+        recyclerViewForNews.setLayoutManager(manager);
+        recyclerViewForNews.setAdapter(adapter);
     }
 
     private void generateCall() {
@@ -94,14 +95,14 @@ public class TopNewsFragment extends Fragment implements OnNewsListener {
         });
     }
 
-    private void initRecyclerView(View view) {
-        RecyclerView recyclerViewForNews = view.findViewById(R.id.posters_list);
-        recyclerViewForNews.setHasFixedSize(true);
+    @Override
+    public void onNewsClick(News poster) {
+        Fragment fragment = NewsDetailFragment.getInstance(poster);
 
-        adapter = new NewsAdapter(this);
-
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(view.getContext());
-        recyclerViewForNews.setLayoutManager(manager);
-        recyclerViewForNews.setAdapter(adapter);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .add(R.id.news_fragment_container, fragment, RETURN_BACK)
+                .addToBackStack(RETURN_BACK)
+                .commit();
     }
+
 }

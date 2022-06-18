@@ -47,7 +47,6 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
         toolbar.setTitle(SECTION);
     }
 
-
     @Override
     public void onSectionListener(Section section) {
         Fragment fragment = SectionNewsFeedFragment.getInstance(section);
@@ -73,13 +72,13 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
 
     private List<Section> generateAll() {
         sections.add(new Section(Link.LINK_ARTS.getLink(), Category.ARTS.getCategory()));
-        sections.add(new Section(Link.LINK_BUSSINESS.getLink(), Category.BUSSINESS.getCategory()));
+        sections.add(new Section(Link.LINK_BUSSINESS.getLink(), Category.BUSINESS.getCategory()));
         sections.add(new Section(Link.LINK_AUTO.getLink(), Category.AUTO.getCategory()));
         sections.add(new Section(Link.LINK_FASHION.getLink(), Category.FASHION.getCategory()));
         sections.add(new Section(Link.LINK_FOOD.getLink(), Category.FOOD.getCategory()));
         sections.add(new Section(Link.LINK_OPINION.getLink(), Category.OPINION.getCategory()));
         sections.add(new Section(Link.LINK_TECHNOLOGY.getLink(), Category.TECHNOLOGY.getCategory()));
-        sections.add(new Section(Link.LINK_REALESTATE.getLink(), Category.REALESTATE.getCategory()));
+        sections.add(new Section(Link.LINK_REALESTATE.getLink(), Category.REAL_ESTATE.getCategory()));
         sections.add(new Section(Link.LINK_MOVIES.getLink(), Category.MOVIES.getCategory()));
         sections.add(new Section(Link.LINK_SPORTS.getLink(), Category.SPORTS.getCategory()));
         return sections;
