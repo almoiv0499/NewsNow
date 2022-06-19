@@ -3,13 +3,13 @@ package com.application.newsnow.enums;
 public enum Category {
 
     ARTS("arts"),
-    BUSSINESS("business"),
+    BUSINESS("business"),
     AUTO("automobiles"),
     FASHION("fashion"),
     FOOD("food"),
     OPINION("opinion"),
     TECHNOLOGY("technology"),
-    REALESTATE("realestate"),
+    REAL_ESTATE("realestate"),
     MOVIES("movies"),
     SPORTS("sports"),
     TOP("world");

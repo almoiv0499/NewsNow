@@ -45,7 +45,7 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news_section, container, false);
+        View view = inflater.inflate(R.layout.fragment_section_news_feed, container, false);
 
         section = (Section) getArguments().getSerializable(SECTION_KEY_BUNDLE);
         load = view.findViewById(R.id.load_news_section);
@@ -60,7 +60,9 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
     }
 
     private void generateCall() {
-        Call<ListNews> call = RetrofitInstance.getInstance().getApi().getAllNews(section.getSection());
+        Call<ListNews> call = RetrofitInstance.getInstance()
+                .getApi()
+                .getAllNews(section.getSection());
         call.enqueue(new Callback<ListNews>() {
             @Override
             public void onResponse(@NonNull Call<ListNews> call, @NonNull Response<ListNews> response) {
