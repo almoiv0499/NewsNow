@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.R;
 import com.application.newsnow.model.News;
+import com.application.newsnow.util.FilterClass;
 import com.application.newsnow.util.OnNewsListener;
 import com.application.newsnow.viewholder.NewsViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SearchAdapter extends RecyclerView.Adapter<NewsViewHolder> implements Filterable {
 
@@ -56,35 +56,7 @@ public class SearchAdapter extends RecyclerView.Adapter<NewsViewHolder> implemen
 
     @Override
     public Filter getFilter() {
-        return filter;
+        return FilterClass.setFilter(news, filtered, this);
     }
 
-    public Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            List<News> temp = new ArrayList<>();
-
-            if (charSequence == null || charSequence.length() == 0) {
-                temp.addAll(filtered);
-            } else {
-                String pattern = charSequence.toString().toLowerCase(Locale.ROOT).trim();
-                for (News item : filtered) {
-                    if (item.getTitle().toLowerCase(Locale.ROOT).contains(pattern)) {
-                        temp.add(item);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = temp;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            news.clear();
-            news.addAll((List<News>) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
 }
