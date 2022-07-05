@@ -28,9 +28,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         private const val FAIL: String = "Oops, something wrong!"
     }
 
-    private var news: List<News> = ArrayList<News>()
-    private var adapter: NewsAdapter? = null
-    private var load: ProgressBar? = null
+    private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -38,11 +36,9 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
         setToolbar(view)
 
-        load = view.findViewById(R.id.load)
-
         initRecyclerView(view)
 
-        generateCall()
+        generateCall(view)
 
         return view
     }
@@ -56,26 +52,24 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         val recyclerView = view.findViewById<RecyclerView>(R.id.posters_list)
         recyclerView.setHasFixedSize(true)
 
-        adapter = NewsAdapter(this)
-
         val manager = LinearLayoutManager(view.context)
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
     }
 
-    private fun generateCall() {
+    private fun generateCall(view: View) {
         val call = RetrofitInstance.getInstance()
             .api
             .getAllNews(Category.TOP.category)
 
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+
         call.enqueue(object : Callback<ListNews> {
             override fun onResponse(call: Call<ListNews>, response: Response<ListNews>) {
                 if (response.isSuccessful) {
-                    load?.visibility = View.GONE
+                    progressBar.visibility = View.GONE
 
-                    news = response.body()?.results as List<News>
-
-                    adapter?.addPosters(news)
+                    adapter.addPosters(response.body()?.results)
                 }
             }
 
