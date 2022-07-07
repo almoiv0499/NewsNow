@@ -13,4 +13,5 @@
     <string name="title_news_detail">Title</string>
     <string name="image_news_details">Image News details</string>
     <string name="topic_item">section item</string>
+    <string name="fail_toast">Oops, something wrong!</string>
 </resources>
