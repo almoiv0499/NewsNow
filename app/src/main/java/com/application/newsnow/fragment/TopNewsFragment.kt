@@ -25,7 +25,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     companion object {
         private const val RETURN_BACK: String = "return_back"
-        private const val FAIL: String = "Oops, something wrong!"
     }
 
     private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
@@ -74,7 +73,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
             }
 
             override fun onFailure(call: Call<ListNews>, t: Throwable) {
-                Toast.makeText(activity?.applicationContext, FAIL, Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity?.applicationContext, getString(R.string.fail_toast), Toast.LENGTH_SHORT).show()
             }
         })
     }
