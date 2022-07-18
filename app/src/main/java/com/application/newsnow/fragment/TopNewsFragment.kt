@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
@@ -17,9 +18,12 @@ import com.application.newsnow.model.ListNews
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
+import com.application.newsnow.util.awaitResponseToSuspend
+import kotlinx.coroutines.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.awaitResponse
 
 class TopNewsFragment : Fragment(), OnNewsListener {
 
@@ -27,9 +31,14 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         private const val RETURN_BACK: String = "return_back"
     }
 
+    private val list: MutableList<News> by lazy { mutableListOf() }
     private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val view = inflater.inflate(R.layout.fragment_top_news, container, false)
 
@@ -37,7 +46,9 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
         initRecyclerView(view)
 
-        generateCall(view)
+        viewLifecycleOwner.lifecycleScope.launch {
+            generateCall(view)
+        }
 
         return view
     }
@@ -56,27 +67,61 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         recyclerView.adapter = adapter
     }
 
-    private fun generateCall(view: View) {
-        val call = RetrofitInstance.getInstance()
-            .api
-            .getAllNews(Category.TOP.category)
-
+    //1
+    private suspend fun generateCall(view: View ) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        val call = RetrofitInstance.getInstance().api.getAllNews(Category.ARTS.category)
+        val result = call.awaitResponseToSuspend(progressBar)
+        adapter.addPosters(result.body()?.results)
+    }
 
-        call.enqueue(object : Callback<ListNews> {
+    //2
+    /*
+    private suspend fun generateCall(view: View) {
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        getData().enqueue(object : Callback<ListNews> {
             override fun onResponse(call: Call<ListNews>, response: Response<ListNews>) {
                 if (response.isSuccessful) {
                     progressBar.visibility = View.GONE
-
                     adapter.addPosters(response.body()?.results)
                 }
             }
 
             override fun onFailure(call: Call<ListNews>, t: Throwable) {
-                Toast.makeText(activity?.applicationContext, getString(R.string.fail_toast), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity?.applicationContext,
+                    getString(R.string.fail_toast),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
+    private suspend fun getData() = withContext(Dispatchers.IO) {
+        RetrofitInstance.getInstance().api.getAllNews(Category.ARTS.category)
+    }
+    */
+
+    //3
+    /*
+    private suspend fun generateCall(view: View) {
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        val response = getData().awaitResponse()
+        when(response.isSuccessful) {
+            true -> {
+                progressBar.visibility = View.GONE
+                adapter.addPosters(response.body()?.results)
+            }
+            false -> Toast.makeText(
+                activity?.applicationContext,
+                getString(R.string.fail_toast),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+    private suspend fun getData() = withContext(Dispatchers.IO) {
+        RetrofitInstance.getInstance().api.getAllNews(Category.ARTS.category)
+    }
+    */
 
     override fun onNewsClick(news: News?) {
         val fragment = NewsDetailFragment.getInstance(news)
@@ -88,5 +133,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
                 .commit()
         }
     }
-
 }
+
+
