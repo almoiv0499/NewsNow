@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,15 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
 import com.application.newsnow.enums.Category
-import com.application.newsnow.model.ListNews
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
-import com.application.newsnow.util.awaitResponseToSuspend
 import kotlinx.coroutines.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.awaitResponse
 
 class TopNewsFragment : Fragment(), OnNewsListener {
@@ -31,7 +25,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         private const val RETURN_BACK: String = "return_back"
     }
 
-    private val list: MutableList<News> by lazy { mutableListOf() }
     private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
 
     override fun onCreateView(
@@ -68,11 +61,17 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     }
 
     //1
-    private suspend fun generateCall(view: View ) {
+    private suspend fun generateCall(view: View) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val call = RetrofitInstance.getInstance().api.getAllNews(Category.ARTS.category)
-        val result = call.awaitResponseToSuspend(progressBar)
-        adapter.addPosters(result.body()?.results)
+        withContext(Dispatchers.IO) {
+            val response = RetrofitInstance.getInstance().api.getAllNews(Category.ARTS.category).awaitResponse()
+            if (response.isSuccessful) {
+                withContext(Dispatchers.Main) {
+                    progressBar.visibility = View.GONE
+                    adapter.addPosters(response.body()?.results)
+                }
+            }
+        }
     }
 
     //2
@@ -122,6 +121,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         RetrofitInstance.getInstance().api.getAllNews(Category.ARTS.category)
     }
     */
+
 
     override fun onNewsClick(news: News?) {
         val fragment = NewsDetailFragment.getInstance(news)
