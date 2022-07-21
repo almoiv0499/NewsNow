@@ -92,7 +92,7 @@ public class SearchFragment extends Fragment implements OnNewsListener {
     private void generateCall() {
         Call<ListNews> call = RetrofitInstance.getInstance()
                 .getApi()
-                .getAllNews(Category.TOP.getCategory());
+                .getNewsByCategory(Category.TOP.getCategory());
 
         call.enqueue(new Callback<ListNews>() {
             @Override
