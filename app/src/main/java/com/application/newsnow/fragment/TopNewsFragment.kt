@@ -26,8 +26,8 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         private const val TAG_EXCEPTION = "Tag_Exception"
     }
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        Log.e(TAG_EXCEPTION, "$throwable")
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Log.e(TAG_EXCEPTION, "$exception")
         Toast.makeText(activity?.applicationContext,
             getString(R.string.fail_toast),
             Toast.LENGTH_SHORT).show()
