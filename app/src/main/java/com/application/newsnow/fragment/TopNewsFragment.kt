@@ -1,6 +1,7 @@
 package com.application.newsnow.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,14 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     companion object {
         private const val RETURN_BACK: String = "return_back"
+        private const val TAG_EXCEPTION = "Tag_Exception"
+    }
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Log.e(TAG_EXCEPTION, "$throwable")
+        Toast.makeText(activity?.applicationContext,
+            getString(R.string.fail_toast),
+            Toast.LENGTH_SHORT).show()
     }
 
     private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
@@ -38,7 +47,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
         initRecyclerView(view)
 
-        viewLifecycleOwner.lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch(exceptionHandler) {
             fetchAllNews(view)
         }
 
@@ -61,8 +70,10 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     private suspend fun fetchAllNews(view: View) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val results = getNews()
-        when(results.results.isNotEmpty()) {
+        val results = withContext(Dispatchers.IO) {
+            RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
+        }
+        when (results.results.isNotEmpty()) {
             true -> {
                 progressBar.visibility = View.GONE
                 adapter.addPosters(results.results)
@@ -73,9 +84,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
                 Toast.LENGTH_SHORT
             ).show()
         }
-    }
-    private suspend fun getNews() = withContext(Dispatchers.IO) {
-        RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
     }
 
     override fun onNewsClick(news: News?) {
