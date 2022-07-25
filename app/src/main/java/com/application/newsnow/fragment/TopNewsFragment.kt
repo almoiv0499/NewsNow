@@ -1,7 +1,6 @@
 package com.application.newsnow.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,19 +17,12 @@ import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
 import kotlinx.coroutines.*
+import retrofit2.HttpException
 
 class TopNewsFragment : Fragment(), OnNewsListener {
 
     companion object {
         private const val RETURN_BACK: String = "return_back"
-        private const val TAG_EXCEPTION = "Tag_Exception"
-    }
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e(TAG_EXCEPTION, "$exception")
-        Toast.makeText(activity?.applicationContext,
-            getString(R.string.fail_toast),
-            Toast.LENGTH_SHORT).show()
     }
 
     private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
@@ -47,7 +39,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
         initRecyclerView(view)
 
-        viewLifecycleOwner.lifecycleScope.launch(exceptionHandler) {
+        viewLifecycleOwner.lifecycleScope.launch {
             fetchAllNews(view)
         }
 
@@ -70,13 +62,17 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     private suspend fun fetchAllNews(view: View) {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val results = withContext(Dispatchers.IO) {
-            RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
+        val news = withContext(Dispatchers.IO) {
+            try {
+                return@withContext RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
+            } catch (exception: HttpException) {
+                throw HttpException(exception.response())
+            }
         }
-        when (results.results.isNotEmpty()) {
+        when (news.results.isNotEmpty()) {
             true -> {
                 progressBar.visibility = View.GONE
-                adapter.addPosters(results.results)
+                adapter.addPosters(news.results)
             }
             false -> Toast.makeText(
                 activity?.applicationContext,
