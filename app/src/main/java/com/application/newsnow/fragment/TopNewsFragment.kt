@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
+import com.application.newsnow.model.ListNews
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
@@ -34,13 +35,14 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_top_news, container, false)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         setToolbar(view)
 
         initRecyclerView(view)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            fetchAllNews(view)
+            fetchAllNews(progressBar)
         }
 
         return view
@@ -60,25 +62,21 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         recyclerView.adapter = adapter
     }
 
-    private suspend fun fetchAllNews(view: View) {
-        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-        val news = withContext(Dispatchers.IO) {
-            try {
-                return@withContext RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
-            } catch (exception: HttpException) {
-                throw HttpException(exception.response())
+    private suspend fun fetchAllNews(progressBar: ProgressBar) {
+        val news = try {
+            withContext(Dispatchers.IO) {
+                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
             }
-        }
-        when (news.results.isNotEmpty()) {
-            true -> {
-                progressBar.visibility = View.GONE
-                adapter.addPosters(news.results)
-            }
-            false -> Toast.makeText(
+        } catch (exception: HttpException) {
+            Toast.makeText(
                 activity?.applicationContext,
                 getString(R.string.fail_toast),
                 Toast.LENGTH_SHORT
             ).show()
+        }
+        if (news is ListNews) {
+            progressBar.visibility = View.GONE
+            adapter.addPosters(news.results)
         }
     }
 
