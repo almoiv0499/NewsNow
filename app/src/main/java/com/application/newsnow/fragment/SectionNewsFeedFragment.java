@@ -59,10 +59,29 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
         return view;
     }
 
+    private void setToolbar(View view) {
+        Toolbar toolbar = view.findViewById(R.id.toolbar_news_section_feed);
+        toolbar.inflateMenu(R.menu.menu_top_news);
+        toolbar.setTitle(section.getSection().toUpperCase(Locale.ROOT));
+        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_new_24);
+        toolbar.setNavigationOnClickListener(viewClick -> getActivity().onBackPressed());
+    }
+
+    private void initRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.list_news_section);
+        recyclerView.setHasFixedSize(true);
+
+        adapter = new NewsAdapter(this);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(view.getContext());
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
+    }
+
     private void generateCall() {
         Call<ListNews> call = RetrofitInstance.getInstance()
                 .getApi()
-                .getAllNews(section.getSection());
+                .getNewsByCategory(section.getSection());
         call.enqueue(new Callback<ListNews>() {
             @Override
             public void onResponse(@NonNull Call<ListNews> call, @NonNull Response<ListNews> response) {
@@ -101,22 +120,4 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
         return fragment;
     }
 
-    private void setToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar_news_section_feed);
-        toolbar.inflateMenu(R.menu.menu_top_news);
-        toolbar.setTitle(section.getSection().toUpperCase(Locale.ROOT));
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_new_24);
-        toolbar.setNavigationOnClickListener(viewClick -> getActivity().onBackPressed());
-    }
-
-    private void initRecyclerView(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.list_news_section);
-        recyclerView.setHasFixedSize(true);
-
-        adapter = new NewsAdapter(this);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(view.getContext());
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(manager);
-    }
 }

@@ -8,18 +8,17 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
-import com.application.newsnow.enums.Category
 import com.application.newsnow.model.ListNews
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.*
+import retrofit2.HttpException
 
 class TopNewsFragment : Fragment(), OnNewsListener {
 
@@ -29,15 +28,22 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val view = inflater.inflate(R.layout.fragment_top_news, container, false)
+        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         setToolbar(view)
 
         initRecyclerView(view)
 
-        generateCall(view)
+        viewLifecycleOwner.lifecycleScope.launch {
+            fetchAllNews(progressBar)
+        }
 
         return view
     }
@@ -56,26 +62,22 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         recyclerView.adapter = adapter
     }
 
-    private fun generateCall(view: View) {
-        val call = RetrofitInstance.getInstance()
-            .api
-            .getAllNews(Category.TOP.category)
-
-        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
-
-        call.enqueue(object : Callback<ListNews> {
-            override fun onResponse(call: Call<ListNews>, response: Response<ListNews>) {
-                if (response.isSuccessful) {
-                    progressBar.visibility = View.GONE
-
-                    adapter.addPosters(response.body()?.results)
-                }
+    private suspend fun fetchAllNews(progressBar: ProgressBar) {
+        val news = try {
+            withContext(Dispatchers.IO) {
+                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
             }
-
-            override fun onFailure(call: Call<ListNews>, t: Throwable) {
-                Toast.makeText(activity?.applicationContext, getString(R.string.fail_toast), Toast.LENGTH_SHORT).show()
-            }
-        })
+        } catch (exception: HttpException) {
+            Toast.makeText(
+                activity?.applicationContext,
+                getString(R.string.fail_toast),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        if (news is ListNews) {
+            progressBar.visibility = View.GONE
+            adapter.addPosters(news.results)
+        }
     }
 
     override fun onNewsClick(news: News?) {
@@ -88,5 +90,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
                 .commit()
         }
     }
-
 }
+
+
