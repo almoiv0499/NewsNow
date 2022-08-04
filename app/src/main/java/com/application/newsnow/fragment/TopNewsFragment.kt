@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
-import com.application.newsnow.enums.ApiEnum
 import com.application.newsnow.model.ListNews
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
@@ -65,7 +64,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     private suspend fun fetchAllNews(progressBar: ProgressBar) {
         val news = try {
             withContext(Dispatchers.IO) {
-                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen(ApiEnum.API_KEY.value)
+                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
             }
         } catch (exception: HttpException) {
             Toast.makeText(

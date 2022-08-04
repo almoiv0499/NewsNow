@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.application.newsnow.R;
 import com.application.newsnow.adapter.NewsAdapter;
-import com.application.newsnow.enums.ApiEnum;
 import com.application.newsnow.model.ListNews;
 import com.application.newsnow.model.News;
 import com.application.newsnow.model.Section;
@@ -79,7 +78,7 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
     private void fetchNews() {
         Call<ListNews> call = RetrofitInstance.getInstance()
                 .getApi()
-                .getNewsByCategory(section.getSection(), ApiEnum.API_KEY.getValue());
+                .getNewsByCategory(section.getSection());
         call.enqueue(new Callback<ListNews>() {
             @Override
             public void onResponse(@NonNull Call<ListNews> call, @NonNull Response<ListNews> response) {

@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.SearchAdapter
-import com.application.newsnow.enums.ApiEnum
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
@@ -65,12 +64,12 @@ class SearchFragment : Fragment(), OnNewsListener {
         searchView.isIconifiedByDefault = false
         searchView.queryHint = INPUT_DATA
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(p0: String?): Boolean {
+            override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
-            override fun onQueryTextChange(p0: String?): Boolean {
-                adapter.filter.filter(p0)
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
                 return true
             }
         })
@@ -78,7 +77,7 @@ class SearchFragment : Fragment(), OnNewsListener {
 
     private fun fetchNews() {
         disposable.add(
-            RetrofitInstance.getInstance().api.getNewsForSearchScreen(ApiEnum.API_KEY.value)
+            RetrofitInstance.getInstance().api.getNewsForSearchScreen()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
