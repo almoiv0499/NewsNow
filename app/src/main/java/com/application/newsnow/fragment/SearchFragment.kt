@@ -12,10 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.SearchAdapter
+import com.application.newsnow.enums.ApiEnum
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class SearchFragment : Fragment(), OnNewsListener {
@@ -26,6 +28,7 @@ class SearchFragment : Fragment(), OnNewsListener {
         private const val RETURN_SEARCH = "return_search"
     }
 
+    private val disposable by lazy { CompositeDisposable() }
     private val adapter: SearchAdapter by lazy { SearchAdapter(this) }
 
     override fun onCreateView(
@@ -52,7 +55,6 @@ class SearchFragment : Fragment(), OnNewsListener {
     private fun initRecyclerView(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.search_recyclerView)
         recyclerView.setHasFixedSize(true)
-
         val manager = LinearLayoutManager(view.context)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = manager
@@ -75,23 +77,24 @@ class SearchFragment : Fragment(), OnNewsListener {
     }
 
     private fun fetchNews() {
-        RetrofitInstance.getInstance().api.getNewsForSearchScreen()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ response ->
-                adapter.addSearchedNews(response.results)
-            }, {
-                Toast.makeText(
-                    activity?.applicationContext,
-                    getString(R.string.fail_toast),
-                    Toast.LENGTH_SHORT
-                ).show()
-            })
+        disposable.add(
+            RetrofitInstance.getInstance().api.getNewsForSearchScreen(ApiEnum.API_KEY.value)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    adapter.addSearchedNews(response.results)
+                }, {
+                    Toast.makeText(
+                        activity?.applicationContext,
+                        getString(R.string.fail_toast),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                })
+        )
     }
 
     override fun onNewsClick(news: News?) {
         val fragment = NewsDetailFragment.getInstance(news)
-
         activity?.let {
             it.supportFragmentManager.beginTransaction()
                 .add(R.id.news_fragment_container, fragment, RETURN_SEARCH)
@@ -100,4 +103,8 @@ class SearchFragment : Fragment(), OnNewsListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.clear()
+    }
 }

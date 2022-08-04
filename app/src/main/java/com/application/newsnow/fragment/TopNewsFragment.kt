@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
+import com.application.newsnow.enums.ApiEnum
 import com.application.newsnow.model.ListNews
 import com.application.newsnow.model.News
 import com.application.newsnow.retrofit.RetrofitInstance
@@ -38,7 +39,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         setToolbar(view)
-
         initRecyclerView(view)
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -56,8 +56,8 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     private fun initRecyclerView(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.posters_list)
         recyclerView.setHasFixedSize(true)
-
         val manager = LinearLayoutManager(view.context)
+
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
     }
@@ -65,7 +65,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     private suspend fun fetchAllNews(progressBar: ProgressBar) {
         val news = try {
             withContext(Dispatchers.IO) {
-                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
+                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen(ApiEnum.API_KEY.value)
             }
         } catch (exception: HttpException) {
             Toast.makeText(
@@ -82,7 +82,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     override fun onNewsClick(news: News?) {
         val fragment = NewsDetailFragment.getInstance(news)
-
         activity?.let {
             it.supportFragmentManager.beginTransaction()
                 .add(R.id.news_fragment_container, fragment, RETURN_BACK)
