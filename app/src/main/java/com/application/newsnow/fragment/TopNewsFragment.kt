@@ -38,7 +38,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
 
         setToolbar(view)
-
         initRecyclerView(view)
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -56,8 +55,8 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     private fun initRecyclerView(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.posters_list)
         recyclerView.setHasFixedSize(true)
-
         val manager = LinearLayoutManager(view.context)
+
         recyclerView.layoutManager = manager
         recyclerView.adapter = adapter
     }
@@ -82,7 +81,6 @@ class TopNewsFragment : Fragment(), OnNewsListener {
 
     override fun onNewsClick(news: News?) {
         val fragment = NewsDetailFragment.getInstance(news)
-
         activity?.let {
             it.supportFragmentManager.beginTransaction()
                 .add(R.id.news_fragment_container, fragment, RETURN_BACK)

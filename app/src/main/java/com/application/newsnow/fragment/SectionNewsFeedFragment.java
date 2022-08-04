@@ -51,10 +51,8 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
         load = view.findViewById(R.id.load_news_section);
 
         setToolbar(view);
-
         initRecyclerView(view);
-
-        generateCall();
+        fetchNews();
 
         return view;
     }
@@ -70,7 +68,6 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
     private void initRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.list_news_section);
         recyclerView.setHasFixedSize(true);
-
         adapter = new NewsAdapter(this);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(view.getContext());
 
@@ -78,7 +75,7 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
         recyclerView.setLayoutManager(manager);
     }
 
-    private void generateCall() {
+    private void fetchNews() {
         Call<ListNews> call = RetrofitInstance.getInstance()
                 .getApi()
                 .getNewsByCategory(section.getSection());
@@ -104,7 +101,6 @@ public class SectionNewsFeedFragment extends Fragment implements OnNewsListener 
     @Override
     public void onNewsClick(News poster) {
         Fragment fragment = NewsDetailFragment.getInstance(poster);
-
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.news_fragment_container, fragment, RETURN)
