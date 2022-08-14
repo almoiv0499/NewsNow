@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    android:layout_marginTop="20dp"
     android:layout_marginStart="20dp"
-    android:layout_marginEnd="20dp">
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:id="@+id/inner_layout_news"
@@ -19,32 +20,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/poster_for_news"/>
+            android:contentDescription="@string/poster_for_news"
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/author_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/section"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:fontFamily="@font/archivo_black"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            />
+            android:fontFamily="@font/archivo_black"
+            android:text="@string/section"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/time_ago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/author_news"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/archivo_black"
             android:text="@string/time_ago"
             android:textColor="@color/white"
-            android:textSize="11sp"
-            android:fontFamily="@font/archivo_black"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"/>
+            android:textSize="11sp" />
 
         <TextView
             android:id="@+id/title_news_poster"
@@ -64,4 +64,4 @@
 
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

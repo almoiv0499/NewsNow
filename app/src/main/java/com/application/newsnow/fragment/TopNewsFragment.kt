@@ -4,21 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
-import com.application.newsnow.model.ListNews
+import com.application.newsnow.databinding.FragmentTopNewsBinding
 import com.application.newsnow.model.News
-import com.application.newsnow.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
-import kotlinx.coroutines.*
-import retrofit2.HttpException
+import com.application.newsnow.viewmodel.TopNewsViewModel
 
 class TopNewsFragment : Fragment(), OnNewsListener {
 
@@ -26,60 +21,48 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         private const val RETURN_BACK: String = "return_back"
     }
 
-    private val adapter: NewsAdapter by lazy { NewsAdapter(this) }
+    private val newsAdapter: NewsAdapter by lazy { NewsAdapter(this) }
+    private val viewModel: TopNewsViewModel by viewModels()
+    private lateinit var topNewsBinding: FragmentTopNewsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        topNewsBinding = FragmentTopNewsBinding.inflate(inflater, container, false)
 
-        val view = inflater.inflate(R.layout.fragment_top_news, container, false)
-        val progressBar = view.findViewById<ProgressBar>(R.id.progressBar)
+        setToolbar()
+        initRecyclerView()
+        fetchNews()
 
-        setToolbar(view)
-        initRecyclerView(view)
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            fetchAllNews(progressBar)
-        }
-
-        return view
+        return topNewsBinding.root
     }
 
-    private fun setToolbar(view: View) {
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)
-        toolbar.inflateMenu(R.menu.menu_top_news)
+    private fun setToolbar() {
+        topNewsBinding.toolbar.inflateMenu(R.menu.menu_top_news)
     }
 
-    private fun initRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.posters_list)
-        recyclerView.setHasFixedSize(true)
-        val manager = LinearLayoutManager(view.context)
-
-        recyclerView.layoutManager = manager
-        recyclerView.adapter = adapter
-    }
-
-    private suspend fun fetchAllNews(progressBar: ProgressBar) {
-        val news = try {
-            withContext(Dispatchers.IO) {
-                RetrofitInstance.getInstance().api.getNewsForTopNewsScreen()
-            }
-        } catch (exception: HttpException) {
-            Toast.makeText(
-                activity?.applicationContext,
-                getString(R.string.fail_toast),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        if (news is ListNews) {
-            progressBar.visibility = View.GONE
-            adapter.addPosters(news.results)
+    private fun initRecyclerView() {
+        with(topNewsBinding.postersList) {
+            setHasFixedSize(true)
+            val manager = LinearLayoutManager(context)
+            layoutManager = manager
+            adapter = newsAdapter
         }
     }
 
-    override fun onNewsClick(news: News?) {
+    private fun fetchNews() {
+        viewModel.news.observe(requireActivity()) { response ->
+            topNewsBinding.progressBar.visibility = View.GONE
+            newsAdapter.addPosters(response.results)
+        }
+        viewModel.error.observe(requireActivity()) { error ->
+            Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onNewsClick(news: News) {
         val fragment = NewsDetailFragment.getInstance(news)
         activity?.let {
             it.supportFragmentManager.beginTransaction()
@@ -88,6 +71,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
                 .commit()
         }
     }
+
 }
 
 
