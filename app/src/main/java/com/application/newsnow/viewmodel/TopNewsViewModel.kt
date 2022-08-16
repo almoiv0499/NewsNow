@@ -17,6 +17,23 @@ class TopNewsViewModel : ViewModel() {
     val error: LiveData<String> = _error
 
     init {
+        fetchNews()
+    }
+
+    private fun fetchNews() {
+        viewModelScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    _news.postValue(RetrofitInstance.getInstance().api.getNewsForTopNewsScreen())
+                }
+            } catch (exception: HttpException) {
+                _error.postValue(exception.message)
+            }
+        }
+    }
+
+    /*
+    init {
         viewModelScope.launch {
             fetchNews()
         }
@@ -29,5 +46,6 @@ class TopNewsViewModel : ViewModel() {
             _error.postValue(exception.message)
         }
     }
+    */
 
 }
