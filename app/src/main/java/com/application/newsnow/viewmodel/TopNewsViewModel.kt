@@ -32,20 +32,4 @@ class TopNewsViewModel : ViewModel() {
         }
     }
 
-    /*
-    init {
-        viewModelScope.launch {
-            fetchNews()
-        }
-    }
-
-    private suspend fun fetchNews() = withContext(Dispatchers.IO) {
-        try {
-            _news.postValue(RetrofitInstance.getInstance().api.getNewsForTopNewsScreen())
-        } catch (exception: HttpException) {
-            _error.postValue(exception.message)
-        }
-    }
-    */
-
 }

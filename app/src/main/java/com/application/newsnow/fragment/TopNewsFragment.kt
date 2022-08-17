@@ -58,6 +58,7 @@ class TopNewsFragment : Fragment(), OnNewsListener {
             newsAdapter.addPosters(response.results)
         }
         viewModel.error.observe(requireActivity()) { error ->
+            topNewsBinding.progressBar.visibility = View.GONE
             Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show()
         }
     }
