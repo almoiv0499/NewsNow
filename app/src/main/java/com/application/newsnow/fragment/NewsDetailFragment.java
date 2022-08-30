@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.model.News;
+import com.application.newsnow.domain.model.News;
 import com.squareup.picasso.Picasso;
 
 public class NewsDetailFragment extends Fragment {
@@ -29,7 +29,6 @@ public class NewsDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_news_detail, container, false);
 
         initViews(view);
-
         setToolbar(view);
 
         News poster = (News) getArguments().getSerializable(NEWS_KEY_BUNDLE);

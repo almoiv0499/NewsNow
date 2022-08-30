@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.model.News;
+import com.application.newsnow.domain.model.News;
 import com.application.newsnow.util.OnNewsListener;
 import com.application.newsnow.viewholder.NewsViewHolder;
 

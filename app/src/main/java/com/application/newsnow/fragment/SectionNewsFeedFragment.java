@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.application.newsnow.R;
 import com.application.newsnow.adapter.NewsAdapter;
-import com.application.newsnow.model.ListNews;
-import com.application.newsnow.model.News;
-import com.application.newsnow.model.Section;
-import com.application.newsnow.retrofit.RetrofitInstance;
+import com.application.newsnow.domain.model.ListNews;
+import com.application.newsnow.domain.model.News;
+import com.application.newsnow.domain.model.Section;
+import com.application.newsnow.data.retrofit.RetrofitInstance;
 import com.application.newsnow.util.OnNewsListener;
 
 import java.util.ArrayList;

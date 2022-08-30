@@ -15,7 +15,7 @@ import com.application.newsnow.R;
 import com.application.newsnow.adapter.SectionAdapter;
 import com.application.newsnow.enums.Category;
 import com.application.newsnow.enums.Link;
-import com.application.newsnow.model.Section;
+import com.application.newsnow.domain.model.Section;
 import com.application.newsnow.util.OnSectionClickListener;
 
 import java.util.ArrayList;

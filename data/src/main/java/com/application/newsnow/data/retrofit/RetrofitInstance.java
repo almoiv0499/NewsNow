@@ -1,4 +1,4 @@
-package com.application.newsnow.retrofit;
+package com.application.newsnow.data.retrofit;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;

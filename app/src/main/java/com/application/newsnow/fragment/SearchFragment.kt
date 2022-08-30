@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.SearchAdapter
-import com.application.newsnow.model.News
-import com.application.newsnow.retrofit.RetrofitInstance
+import com.application.newsnow.domain.model.News
+import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.util.OnNewsListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable

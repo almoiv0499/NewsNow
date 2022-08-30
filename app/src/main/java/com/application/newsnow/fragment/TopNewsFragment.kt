@@ -6,14 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
 import com.application.newsnow.databinding.FragmentTopNewsBinding
-import com.application.newsnow.model.News
+import com.application.newsnow.domain.model.News
 import com.application.newsnow.util.OnNewsListener
 import com.application.newsnow.viewmodel.TopNewsViewModel
+import com.application.newsnow.viewmodelfactory.TopNewsViewModelFactory
 
 class TopNewsFragment : Fragment(), OnNewsListener {
 
@@ -22,7 +23,12 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     }
 
     private val newsAdapter: NewsAdapter by lazy { NewsAdapter(this) }
-    private val viewModel: TopNewsViewModel by viewModels()
+    private val viewModel: TopNewsViewModel by lazy {
+        ViewModelProvider(
+            this,
+            TopNewsViewModelFactory()
+        )[TopNewsViewModel::class.java]
+    }
     private lateinit var topNewsBinding: FragmentTopNewsBinding
 
     override fun onCreateView(

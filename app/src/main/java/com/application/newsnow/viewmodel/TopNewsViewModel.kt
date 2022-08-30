@@ -1,14 +1,14 @@
 package com.application.newsnow.viewmodel
 
 import androidx.lifecycle.*
-import com.application.newsnow.model.ListNews
-import com.application.newsnow.retrofit.RetrofitInstance
+import com.application.newsnow.domain.model.ListNews
+import com.application.newsnow.domain.usecase.GetListNewsUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
-class TopNewsViewModel : ViewModel() {
+class TopNewsViewModel(private val getListNewsUseCase: GetListNewsUseCase) : ViewModel() {
 
     private val _news = MutableLiveData<ListNews>()
     val news: LiveData<ListNews> = _news
@@ -24,7 +24,7 @@ class TopNewsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    _news.postValue(RetrofitInstance.getInstance().api.getNewsForTopNewsScreen())
+                    _news.postValue(getListNewsUseCase.fetchNews())
                 }
             } catch (exception: HttpException) {
                 _error.postValue(exception.message)

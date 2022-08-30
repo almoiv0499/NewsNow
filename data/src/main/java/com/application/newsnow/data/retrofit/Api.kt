@@ -1,6 +1,6 @@
-package com.application.newsnow.retrofit
+package com.application.newsnow.data.retrofit
 
-import com.application.newsnow.model.ListNews
+import com.application.newsnow.domain.model.ListNews
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.GET

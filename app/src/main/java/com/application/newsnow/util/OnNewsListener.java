@@ -1,6 +1,6 @@
 package com.application.newsnow.util;
 
-import com.application.newsnow.model.News;
+import com.application.newsnow.domain.model.News;
 
 public interface OnNewsListener {
 

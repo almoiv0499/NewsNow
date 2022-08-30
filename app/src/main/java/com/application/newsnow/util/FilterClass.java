@@ -3,7 +3,7 @@ package com.application.newsnow.util;
 import android.widget.Filter;
 
 import com.application.newsnow.adapter.SearchAdapter;
-import com.application.newsnow.model.News;
+import com.application.newsnow.domain.model.News;
 
 import java.util.ArrayList;
 import java.util.List;
