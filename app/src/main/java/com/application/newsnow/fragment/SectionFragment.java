@@ -15,7 +15,7 @@ import com.application.newsnow.R;
 import com.application.newsnow.adapter.SectionAdapter;
 import com.application.newsnow.enums.Category;
 import com.application.newsnow.enums.Link;
-import com.application.newsnow.domain.model.Section;
+import com.application.newsnow.model.Section;
 import com.application.newsnow.util.OnSectionClickListener;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
 
     @Override
     public void onSectionListener(Section section) {
-        Fragment fragment = SectionNewsFeedFragment.getInstance(section);
+        Fragment fragment = SectionNewsFeedFragment.Companion.getInstance(section);
 
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
@@ -82,6 +82,10 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
         sections.add(new Section(Link.LINK_MOVIES.getLink(), Category.MOVIES.getCategory()));
         sections.add(new Section(Link.LINK_SPORTS.getLink(), Category.SPORTS.getCategory()));
         return sections;
+    }
+
+    public static SectionFragment getInstance() {
+        return new SectionFragment();
     }
 
 }

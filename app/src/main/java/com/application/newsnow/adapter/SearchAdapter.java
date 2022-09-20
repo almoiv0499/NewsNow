@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.domain.model.News;
+import com.application.newsnow.model.NewsView;
 import com.application.newsnow.util.FilterClass;
 import com.application.newsnow.util.OnNewsListener;
 import com.application.newsnow.viewholder.NewsViewHolder;
@@ -20,15 +20,15 @@ import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<NewsViewHolder> implements Filterable {
 
-    private List<News> news = new ArrayList<>();
-    private List<News> filtered;
+    private List<NewsView> news = new ArrayList<>();
+    private List<NewsView> filtered;
     private OnNewsListener listener;
 
     public SearchAdapter(OnNewsListener listener) {
         this.listener = listener;
     }
 
-    public void addSearchedNews(List<News> filteredNews) {
+    public void addSearchedNews(List<NewsView> filteredNews) {
         news.clear();
         news.addAll(filteredNews);
         filtered = new ArrayList<>(filteredNews);

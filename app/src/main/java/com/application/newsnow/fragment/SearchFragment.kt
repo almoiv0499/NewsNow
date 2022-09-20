@@ -8,16 +8,18 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.newsnow.R
 import com.application.newsnow.adapter.SearchAdapter
-import com.application.newsnow.domain.model.News
+import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
 import com.application.newsnow.data.retrofit.RetrofitInstance
+import com.application.newsnow.domain.usecase.GetSearchedNewsUseCase
+import com.application.newsnow.model.NewsView
 import com.application.newsnow.util.OnNewsListener
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.application.newsnow.viewmodel.SearchNewsViewModel
+import com.application.newsnow.viewmodelfactory.SearchedNewsViewModelFactory
 
 class SearchFragment : Fragment(), OnNewsListener {
 
@@ -25,9 +27,24 @@ class SearchFragment : Fragment(), OnNewsListener {
         private const val SEARCH = "Search"
         private const val INPUT_DATA = "Type here..."
         private const val RETURN_SEARCH = "return_search"
+
+        fun getInstance() = SearchFragment()
     }
 
-    private val disposable by lazy { CompositeDisposable() }
+    private val getSearchedNewsUseCase by lazy {
+        GetSearchedNewsUseCase(
+            repository = FetchNewsRepositoryImpl(
+                api = RetrofitInstance.getInstance().api
+            )
+        )
+    }
+
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            SearchedNewsViewModelFactory(getSearchedNewsUseCase)
+        )[SearchNewsViewModel::class.java]
+    }
     private val adapter: SearchAdapter by lazy { SearchAdapter(this) }
 
     override fun onCreateView(
@@ -76,23 +93,16 @@ class SearchFragment : Fragment(), OnNewsListener {
     }
 
     private fun fetchNews() {
-        disposable.add(
-            RetrofitInstance.getInstance().api.getNewsForSearchScreen()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response ->
-                    adapter.addSearchedNews(response.results)
-                }, {
-                    Toast.makeText(
-                        activity?.applicationContext,
-                        getString(R.string.fail_toast),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
-        )
+        viewModel.searchedNews.observe(requireActivity()) { response ->
+            adapter.addSearchedNews(response.results)
+        }
+
+        viewModel.error.observe(requireActivity()) { error ->
+            Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+        }
     }
 
-    override fun onNewsClick(news: News?) {
+    override fun onNewsClick(news: NewsView?) {
         val fragment = NewsDetailFragment.getInstance(news)
         activity?.let {
             it.supportFragmentManager.beginTransaction()
@@ -102,8 +112,4 @@ class SearchFragment : Fragment(), OnNewsListener {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable.clear()
-    }
 }

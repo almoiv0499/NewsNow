@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.domain.model.News;
+import com.application.newsnow.model.NewsView;
 import com.squareup.picasso.Picasso;
 
 public class NewsDetailFragment extends Fragment {
@@ -31,7 +31,7 @@ public class NewsDetailFragment extends Fragment {
         initViews(view);
         setToolbar(view);
 
-        News poster = (News) getArguments().getSerializable(NEWS_KEY_BUNDLE);
+        NewsView poster = (NewsView) getArguments().getSerializable(NEWS_KEY_BUNDLE);
         if (poster != null) {
             author.setText(poster.getMultimedia().get(0).getAuthor());
             publishedAt.setText(poster.getPublishedAt());
@@ -50,7 +50,7 @@ public class NewsDetailFragment extends Fragment {
         toolbarNewsDetail.setNavigationOnClickListener(viewClick -> getActivity().onBackPressed());
     }
 
-    public static NewsDetailFragment getInstance(News news) {
+    public static NewsDetailFragment getInstance(NewsView news) {
         NewsDetailFragment fragment = new NewsDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(NEWS_KEY_BUNDLE, news);

@@ -1,5 +1,4 @@
-package com.application.newsnow.domain.model;
-
+package com.application.newsnow.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

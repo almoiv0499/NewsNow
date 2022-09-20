@@ -1,4 +1,4 @@
-package com.application.newsnow.domain.model;
+package com.application.newsnow.model;
 
 import java.io.Serializable;
 

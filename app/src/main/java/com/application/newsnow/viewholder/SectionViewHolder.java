@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.domain.model.Section;
+import com.application.newsnow.model.Section;
 import com.application.newsnow.util.OnSectionClickListener;
 import com.squareup.picasso.Picasso;
 
