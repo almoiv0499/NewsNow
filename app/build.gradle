@@ -46,8 +46,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //Fragments
-    implementation 'androidx.fragment:fragment:1.5.2'
-    implementation 'androidx.fragment:fragment-ktx:1.5.2'
+    implementation 'androidx.fragment:fragment:1.5.3'
+    implementation 'androidx.fragment:fragment-ktx:1.5.3'
 
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'

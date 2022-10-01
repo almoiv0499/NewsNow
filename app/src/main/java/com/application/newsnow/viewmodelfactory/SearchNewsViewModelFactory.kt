@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.application.newsnow.domain.usecase.GetSearchedNewsUseCase
 import com.application.newsnow.viewmodel.SearchNewsViewModel
 
-class SearchedNewsViewModelFactory(
+class SearchNewsViewModelFactory(
     private val getSearchedNewsUseCase: GetSearchedNewsUseCase
 ) : ViewModelProvider.Factory {
 

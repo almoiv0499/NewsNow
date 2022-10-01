@@ -1,12 +1,10 @@
 package com.application.newsnow.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.newsnow.R
@@ -15,17 +13,17 @@ import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
 import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.databinding.FragmentSectionNewsFeedBinding
 import com.application.newsnow.domain.usecase.GetNewsByCategoryUseCase
+import com.application.newsnow.fragment.base.BaseFragment
 import com.application.newsnow.model.NewsView
 import com.application.newsnow.model.Section
 import com.application.newsnow.util.OnNewsListener
 import com.application.newsnow.viewmodel.SectionNewsViewModel
 import com.application.newsnow.viewmodelfactory.SectionNewsViewModelFactory
 
-class SectionNewsFeedFragment : Fragment(), OnNewsListener {
+class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsListener {
 
     companion object {
         private const val SECTION_KEY_BUNDLE = "section_key"
-        private const val RETURN = "return"
 
         fun getInstance(section: Section): SectionNewsFeedFragment {
             val fragment = SectionNewsFeedFragment()
@@ -43,11 +41,10 @@ class SectionNewsFeedFragment : Fragment(), OnNewsListener {
             )
         )
     }
-
-    private val viewModel: SectionNewsViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(
             this,
-            SectionNewsViewModelFactory(getNewsByCategoryUseCase)
+            SectionNewsViewModelFactory(getNewsByCategoryUseCase = getNewsByCategoryUseCase)
         )[SectionNewsViewModel::class.java]
     }
     private val sectionAdapter by lazy { NewsAdapter(this) }
@@ -89,26 +86,19 @@ class SectionNewsFeedFragment : Fragment(), OnNewsListener {
     private fun fetchNewsByCategory(section: Section) {
         viewModel.fetchNewsByCategory(section)
 
-        viewModel.news.observe(requireActivity()) { response ->
+        viewModel.liveDataNews.observe(requireActivity()) { response ->
             binding.loadNewsSection.visibility = View.GONE
             sectionAdapter.addPosters(response.results)
         }
 
-        viewModel.error.observe(requireActivity()) { error ->
+        viewModel.liveDataException.observe(requireActivity()) { error ->
             binding.loadNewsSection.visibility = View.GONE
             Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onNewsClick(news: NewsView) {
-        val fragment = NewsDetailFragment.getInstance(news)
-
-        activity?.let {
-            it.supportFragmentManager.commit {
-                add(R.id.news_fragment_container, fragment, RETURN)
-                addToBackStack(RETURN)
-            }
-        }
+        viewModel.navigateToDetails(newsView = news)
     }
 
 }

@@ -1,7 +1,6 @@
 package com.application.newsnow.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,19 +15,17 @@ import com.application.newsnow.adapter.SearchAdapter
 import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
 import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.domain.usecase.GetSearchedNewsUseCase
+import com.application.newsnow.fragment.base.BaseFragment
 import com.application.newsnow.model.NewsView
 import com.application.newsnow.util.OnNewsListener
 import com.application.newsnow.viewmodel.SearchNewsViewModel
-import com.application.newsnow.viewmodelfactory.SearchedNewsViewModelFactory
+import com.application.newsnow.viewmodelfactory.SearchNewsViewModelFactory
 
-class SearchFragment : Fragment(), OnNewsListener {
+class SearchFragment : BaseFragment<SearchNewsViewModel>(), OnNewsListener {
 
     companion object {
         private const val SEARCH = "Search"
         private const val INPUT_DATA = "Type here..."
-        private const val RETURN_SEARCH = "return_search"
-
-        fun getInstance() = SearchFragment()
     }
 
     private val getSearchedNewsUseCase by lazy {
@@ -38,11 +35,10 @@ class SearchFragment : Fragment(), OnNewsListener {
             )
         )
     }
-
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(
             this,
-            SearchedNewsViewModelFactory(getSearchedNewsUseCase)
+            SearchNewsViewModelFactory(getSearchedNewsUseCase = getSearchedNewsUseCase)
         )[SearchNewsViewModel::class.java]
     }
     private val adapter: SearchAdapter by lazy { SearchAdapter(this) }
@@ -93,23 +89,17 @@ class SearchFragment : Fragment(), OnNewsListener {
     }
 
     private fun fetchNews() {
-        viewModel.searchedNews.observe(requireActivity()) { response ->
+        viewModel.liveDataNews.observe(requireActivity()) { response ->
             adapter.addSearchedNews(response.results)
         }
 
-        viewModel.error.observe(requireActivity()) { error ->
+        viewModel.liveDataException.observe(requireActivity()) { error ->
             Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onNewsClick(news: NewsView?) {
-        val fragment = NewsDetailFragment.getInstance(news)
-        activity?.let {
-            it.supportFragmentManager.beginTransaction()
-                .add(R.id.news_fragment_container, fragment, RETURN_SEARCH)
-                .addToBackStack(RETURN_SEARCH)
-                .commit()
-        }
+    override fun onNewsClick(news: NewsView) {
+        viewModel.navigateToDetails(newsView = news)
     }
 
 }

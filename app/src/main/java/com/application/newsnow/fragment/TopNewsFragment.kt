@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.newsnow.R
@@ -15,16 +13,13 @@ import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
 import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.databinding.FragmentTopNewsBinding
 import com.application.newsnow.domain.usecase.GetListNewsUseCase
+import com.application.newsnow.fragment.base.BaseFragment
 import com.application.newsnow.model.NewsView
 import com.application.newsnow.util.OnNewsListener
 import com.application.newsnow.viewmodel.TopNewsViewModel
 import com.application.newsnow.viewmodelfactory.TopNewsViewModelFactory
 
-class TopNewsFragment : Fragment(), OnNewsListener {
-
-    companion object {
-        private const val RETURN_BACK: String = "return_back"
-    }
+class TopNewsFragment : BaseFragment<TopNewsViewModel>(), OnNewsListener {
 
     private val getListNewsUseCase by lazy {
         GetListNewsUseCase(
@@ -34,10 +29,10 @@ class TopNewsFragment : Fragment(), OnNewsListener {
         )
     }
     private val newsAdapter: NewsAdapter by lazy { NewsAdapter(this) }
-    private val viewModel: TopNewsViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(
             this,
-            TopNewsViewModelFactory(getListNewsUseCase)
+            TopNewsViewModelFactory(getListNewsUseCase = getListNewsUseCase)
         )[TopNewsViewModel::class.java]
     }
     private lateinit var topNewsBinding: FragmentTopNewsBinding
@@ -70,24 +65,18 @@ class TopNewsFragment : Fragment(), OnNewsListener {
     }
 
     private fun fetchNews() {
-        viewModel.news.observe(requireActivity()) { response ->
+        viewModel.liveDataNews.observe(requireActivity()) { response ->
             topNewsBinding.progressBar.visibility = View.GONE
             newsAdapter.addPosters(response.results)
         }
-        viewModel.error.observe(requireActivity()) { error ->
+        viewModel.liveDataException.observe(requireActivity()) { error ->
             topNewsBinding.progressBar.visibility = View.GONE
             Toast.makeText(requireActivity(), error, Toast.LENGTH_SHORT).show()
         }
     }
 
     override fun onNewsClick(news: NewsView) {
-        val fragment = NewsDetailFragment.getInstance(news)
-        activity?.let {
-            it.supportFragmentManager.beginTransaction()
-                .add(R.id.news_fragment_container, fragment, RETURN_BACK)
-                .addToBackStack(RETURN_BACK)
-                .commit()
-        }
+        viewModel.navigateToDetails(newsView = news)
     }
 
 }
