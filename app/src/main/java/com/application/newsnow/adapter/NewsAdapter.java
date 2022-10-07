@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.model.News;
+import com.application.newsnow.model.NewsView;
 import com.application.newsnow.util.OnNewsListener;
 import com.application.newsnow.viewholder.NewsViewHolder;
 
@@ -17,14 +17,14 @@ import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsViewHolder> {
 
-    private List<News> news = new ArrayList<>();
+    private List<NewsView> news = new ArrayList<>();
     private OnNewsListener newsListener;
 
     public NewsAdapter(OnNewsListener newsListener) {
         this.newsListener = newsListener;
     }
 
-    public void addPosters(List<News> newsList) {
+    public void addPosters(List<NewsView> newsList) {
         news.clear();
         news.addAll(newsList);
         notifyDataSetChanged();

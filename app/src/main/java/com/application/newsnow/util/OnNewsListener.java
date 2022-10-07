@@ -1,9 +1,9 @@
 package com.application.newsnow.util;
 
-import com.application.newsnow.model.News;
+import com.application.newsnow.model.NewsView;
 
 public interface OnNewsListener {
 
-    void onNewsClick(News news);
+    void onNewsClick(NewsView news);
 
 }

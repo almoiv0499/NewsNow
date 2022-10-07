@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.application.newsnow.R;
-import com.application.newsnow.model.News;
+import com.application.newsnow.model.NewsView;
 import com.application.newsnow.util.OnNewsListener;
 import com.squareup.picasso.Picasso;
 
@@ -17,7 +17,7 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
     private TextView author, publishedAt, title;
     private ImageView urlToImage;
 
-    private News news;
+    private NewsView news;
     private OnNewsListener newsListener;
 
     public NewsViewHolder(@NonNull View itemView) {
@@ -30,7 +30,7 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(view -> newsListener.onNewsClick(news));
     }
 
-    public void bind(News news, OnNewsListener newsListener) {
+    public void bind(NewsView news, OnNewsListener newsListener) {
         this.news = news;
         this.newsListener = newsListener;
         author.setText(news.getMultimedia().get(0).getAuthor());
