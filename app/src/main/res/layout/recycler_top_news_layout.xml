@@ -2,65 +2,92 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="350dp"
     android:layout_marginStart="20dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="10dp"
     android:layout_marginEnd="20dp"
+    android:layout_marginBottom="10dp"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="10dp">
 
     <RelativeLayout
-        android:id="@+id/inner_layout_news"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/image_news_poster"
+            android:id="@+id/image_top_news"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:contentDescription="@string/poster_for_news"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
 
-        <TextView
-            android:id="@+id/author_news"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/archivo_black"
-            android:text="@string/section"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/time_ago"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/author_news"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/archivo_black"
-            android:text="@string/time_ago"
-            android:textColor="@color/white"
-            android:textSize="11sp" />
-
-        <TextView
-            android:id="@+id/title_news_poster"
+        <com.google.android.material.card.MaterialCardView
+            style="@style/BackgroundCardDetailsFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/image_news_poster"
-            android:layout_alignEnd="@id/image_news_poster"
-            android:layout_alignBottom="@id/image_news_poster"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="20dp"
+            android:layout_alignBottom="@+id/image_top_news"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
             android:layout_marginBottom="15dp"
-            android:fontFamily="@font/archivo_black"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:alpha="0.8"
+            app:cardCornerRadius="7dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_top_news"
+                    style="@style/TextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="4dp"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/candal"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/author_top_news"
+                    style="@style/TextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="5dp"
+                    android:alpha="0.7"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/cambay"
+                    android:lines="1"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/published_at_top_news"
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:alpha="0.7"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/cambay"
+                    android:lines="1"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </RelativeLayout>
 

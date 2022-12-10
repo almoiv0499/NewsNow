@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="200dp"
     android:layout_marginStart="15dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="15dp"
     android:layout_marginBottom="10dp"
     android:clickable="true"
-    app:cardCornerRadius="10dp"
-    android:focusable="true">
+    android:focusable="true"
+    app:cardCornerRadius="10dp">
 
     <RelativeLayout
         android:id="@+id/inner_layout_section"
@@ -17,27 +17,31 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/topic_image"
+            android:id="@+id/image_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@string/topic_item"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/topic_title"
+            android:id="@+id/title_section"
+            style="@style/TextViewStyleSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@id/topic_image"
-            android:layout_alignTop="@id/topic_image"
-            android:layout_alignEnd="@id/topic_image"
-            android:layout_alignBottom="@id/topic_image"
-            android:fontFamily="@font/archivo_black"
+            android:layout_alignStart="@id/image_section"
+            android:layout_alignEnd="@id/image_section"
+            android:layout_alignBottom="@id/image_section"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:alpha="0.8"
+            android:fontFamily="@font/candal"
             android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

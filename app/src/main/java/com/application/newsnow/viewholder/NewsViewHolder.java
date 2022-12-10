@@ -22,10 +22,10 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
 
     public NewsViewHolder(@NonNull View itemView) {
         super(itemView);
-        author = itemView.findViewById(R.id.author_news);
-        publishedAt = itemView.findViewById(R.id.time_ago);
-        title = itemView.findViewById(R.id.title_news_poster);
-        urlToImage = itemView.findViewById(R.id.image_news_poster);
+        author = itemView.findViewById(R.id.author_top_news);
+        publishedAt = itemView.findViewById(R.id.published_at_top_news);
+        title = itemView.findViewById(R.id.title_top_news);
+        urlToImage = itemView.findViewById(R.id.image_top_news);
 
         itemView.setOnClickListener(view -> newsListener.onNewsClick(news));
     }
@@ -36,7 +36,10 @@ public class NewsViewHolder extends RecyclerView.ViewHolder {
         author.setText(news.getMultimedia().get(0).getAuthor());
         publishedAt.setText(news.getPublishedAt());
         title.setText(news.getTitle());
-        Picasso.get().load(news.getMultimedia().get(0).getImage()).into(urlToImage);
+        Picasso.get()
+                .load(news.getMultimedia().get(0).getImage())
+                .error(R.drawable.ic_person)
+                .into(urlToImage);
     }
 
 }
