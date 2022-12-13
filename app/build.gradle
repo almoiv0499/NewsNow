@@ -46,8 +46,6 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    //Glide
-
     //Fragments
     implementation 'androidx.fragment:fragment:1.5.5'
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
@@ -69,7 +67,7 @@ dependencies {
 
     //Dagger2
     implementation 'com.google.dagger:dagger:2.44.2'
-    implementation 'com.google.dagger:dagger-android:2.35.1'
+    implementation 'com.google.dagger:dagger-android:2.44.2'
     kapt 'com.google.dagger:dagger-compiler:2.44.2'
 
 }
