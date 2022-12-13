@@ -1,22 +1,22 @@
 package com.application.newsnow.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.application.app.App
 import com.application.newsnow.adapter.SearchAdapter
-import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
-import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.databinding.FragmentSectionNewsFeedBinding
-import com.application.newsnow.domain.usecase.GetNewsByCategoryUseCase
 import com.application.newsnow.fragment.base.BaseFragment
 import com.application.newsnow.model.NewsView
 import com.application.newsnow.model.Section
 import com.application.newsnow.util.OnNewsListener
 import com.application.newsnow.viewmodel.SectionNewsViewModel
-import com.application.newsnow.viewmodelfactory.SectionNewsViewModelFactory
+import com.application.newsnow.viewmodelfactory.NewsViewModelFactory
+import javax.inject.Inject
 
 class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsListener {
 
@@ -32,21 +32,26 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
         }
     }
 
-    private val getNewsByCategoryUseCase by lazy {
-        GetNewsByCategoryUseCase(
-            repository = FetchNewsRepositoryImpl(
-                api = RetrofitInstance.getInstance().api
-            )
-        )
+    @Inject
+    lateinit var viewModelFactory: NewsViewModelFactory
+
+    override val viewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProvider(this, viewModelFactory)[SectionNewsViewModel::class.java]
     }
-    override val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            SectionNewsViewModelFactory(getNewsByCategoryUseCase = getNewsByCategoryUseCase)
-        )[SectionNewsViewModel::class.java]
-    }
+
     private val searchAdapter by lazy { SearchAdapter(this) }
+
+    private val section by lazy(LazyThreadSafetyMode.NONE) {
+        arguments?.getSerializable(SECTION_KEY_BUNDLE) as Section
+    }
+
     private lateinit var binding: FragmentSectionNewsFeedBinding
+
+    override fun onAttach(context: Context) {
+        (activity?.applicationContext as App).component.inject(this)
+        super.onAttach(context)
+        viewModel.fetchNewsByCategory(section)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +64,7 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
         setToolbar(section)
         initRecyclerView()
         setSearch()
-        fetchNewsByCategory(section)
+        fetchNewsByCategory()
 
         return binding.root
     }
@@ -95,9 +100,7 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
         }
     }
 
-    private fun fetchNewsByCategory(section: Section) {
-        viewModel.fetchNewsByCategory(section)
-
+    private fun fetchNewsByCategory() {
         viewModel.liveDataNews.observe(requireActivity()) { response ->
             binding.loadNewsSection.visibility = View.GONE
             searchAdapter.addSearchedNews(response.results)

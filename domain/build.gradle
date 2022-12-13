@@ -12,6 +12,9 @@ dependencies {
 
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.10'
 
+    //Javax Inject
+    implementation 'javax.inject:javax.inject:1'
+
     //RxJava3
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 

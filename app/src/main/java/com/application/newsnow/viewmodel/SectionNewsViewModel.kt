@@ -12,8 +12,9 @@ import com.application.newsnow.model.Section
 import com.application.newsnow.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class SectionNewsViewModel(
+class SectionNewsViewModel @Inject constructor(
     private val getNewsByCategoryUseCase: GetNewsByCategoryUseCase
 ) : BaseViewModel() {
 

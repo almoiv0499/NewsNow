@@ -5,8 +5,9 @@ import com.application.newsnow.data.retrofit.Api
 import com.application.newsnow.domain.model.ListNewsDomain
 import com.application.newsnow.domain.repository.FetchNewsRepository
 import io.reactivex.rxjava3.core.Observable
+import javax.inject.Inject
 
-class FetchNewsRepositoryImpl(private val api: Api) : FetchNewsRepository {
+class FetchNewsRepositoryImpl @Inject constructor(private val api: Api) : FetchNewsRepository {
 
     override suspend fun fetchNews(): ListNewsDomain =
         api.getNewsForTopNewsScreen().toListNewsDomain()

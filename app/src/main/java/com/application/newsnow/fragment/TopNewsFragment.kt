@@ -1,5 +1,6 @@
 package com.application.newsnow.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,35 +9,34 @@ import android.widget.Toast
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.application.app.App
 import com.application.newsnow.R
 import com.application.newsnow.adapter.NewsAdapter
-import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
-import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.databinding.FragmentTopNewsBinding
-import com.application.newsnow.domain.usecase.GetListNewsUseCase
 import com.application.newsnow.fragment.base.BaseFragment
 import com.application.newsnow.model.NewsView
 import com.application.newsnow.util.OnNewsListener
 import com.application.newsnow.viewmodel.TopNewsViewModel
-import com.application.newsnow.viewmodelfactory.TopNewsViewModelFactory
+import com.application.newsnow.viewmodelfactory.NewsViewModelFactory
+import javax.inject.Inject
 
 class TopNewsFragment : BaseFragment<TopNewsViewModel>(), OnNewsListener {
 
-    private val getListNewsUseCase by lazy {
-        GetListNewsUseCase(
-            repository = FetchNewsRepositoryImpl(
-                api = RetrofitInstance.getInstance().api
-            )
-        )
+    @Inject
+    lateinit var viewModelFactory: NewsViewModelFactory
+
+    override val viewModel by lazy(LazyThreadSafetyMode.NONE) {
+        ViewModelProvider(this, viewModelFactory)[TopNewsViewModel::class.java]
     }
+
     private val newsAdapter: NewsAdapter by lazy { NewsAdapter(this) }
-    override val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            TopNewsViewModelFactory(getListNewsUseCase = getListNewsUseCase)
-        )[TopNewsViewModel::class.java]
-    }
+
     private lateinit var topNewsBinding: FragmentTopNewsBinding
+
+    override fun onAttach(context: Context) {
+        (activity?.applicationContext as App).component.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

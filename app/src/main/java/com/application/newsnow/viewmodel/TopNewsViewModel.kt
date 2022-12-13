@@ -9,8 +9,11 @@ import com.application.newsnow.model.NewsView
 import com.application.newsnow.viewmodel.base.BaseViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class TopNewsViewModel(private val getListNewsUseCase: GetListNewsUseCase) : BaseViewModel() {
+class TopNewsViewModel @Inject constructor(
+    private val getListNewsUseCase: GetListNewsUseCase
+) : BaseViewModel() {
 
     private val _liveDataNews = MutableLiveData<ListNewsView>()
     val liveDataNews: LiveData<ListNewsView> = _liveDataNews
