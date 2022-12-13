@@ -26,25 +26,15 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
     private static final String RETURN = "return";
     private static final String SECTION = "Sections";
 
-    private List<Section> sections = new ArrayList<>();
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_section, container, false);
 
-        setToolbar(view);
-
         initRecyclerView(view);
 
         return view;
-    }
-
-    private void setToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar_news_section);
-        toolbar.inflateMenu(R.menu.menu_top_news);
-        toolbar.setTitle(SECTION);
     }
 
     @Override
@@ -71,6 +61,7 @@ public class SectionFragment extends Fragment implements OnSectionClickListener 
     }
 
     private List<Section> generateAll() {
+        List<Section> sections = new ArrayList<>();
         sections.add(new Section(Link.LINK_ARTS.getLink(), Category.ARTS.getCategory()));
         sections.add(new Section(Link.LINK_BUSSINESS.getLink(), Category.BUSINESS.getCategory()));
         sections.add(new Section(Link.LINK_AUTO.getLink(), Category.AUTO.getCategory()));

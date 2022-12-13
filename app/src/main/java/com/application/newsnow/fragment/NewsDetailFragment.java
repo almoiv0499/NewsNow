@@ -45,8 +45,6 @@ public class NewsDetailFragment extends Fragment {
 
     private void setToolbar(View view) {
         Toolbar toolbarNewsDetail = view.findViewById(R.id.toolbar_news_detail);
-        toolbarNewsDetail.inflateMenu(R.menu.menu_news_detail);
-        toolbarNewsDetail.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_new_24);
         toolbarNewsDetail.setNavigationOnClickListener(viewClick -> getActivity().onBackPressed());
     }
 
@@ -60,7 +58,7 @@ public class NewsDetailFragment extends Fragment {
 
     private void initViews(View view) {
         author = view.findViewById(R.id.author_news_detail);
-        publishedAt = view.findViewById(R.id.time_ago_news_detail);
+        publishedAt = view.findViewById(R.id.published_news_detail);
         title = view.findViewById(R.id.title_news_detail);
         description = view.findViewById(R.id.description_news_detail);
         image = view.findViewById(R.id.image_news_detail);

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.newsnow.R
@@ -44,15 +45,24 @@ class TopNewsFragment : BaseFragment<TopNewsViewModel>(), OnNewsListener {
     ): View {
         topNewsBinding = FragmentTopNewsBinding.inflate(inflater, container, false)
 
-        setToolbar()
         initRecyclerView()
         fetchNews()
 
-        return topNewsBinding.root
-    }
+        with(topNewsBinding) {
 
-    private fun setToolbar() {
-        topNewsBinding.toolbar.inflateMenu(R.menu.menu_top_news)
+            btnSection.setOnClickListener {
+                val fragment = SectionFragment.getInstance()
+
+                activity?.let {
+                    it.supportFragmentManager.commit {
+                        add(R.id.news_fragment_container, fragment)
+                        addToBackStack(null)
+                    }
+                }
+            }
+        }
+
+        return topNewsBinding.root
     }
 
     private fun initRecyclerView() {

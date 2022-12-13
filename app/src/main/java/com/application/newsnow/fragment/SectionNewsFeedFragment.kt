@@ -1,14 +1,12 @@
 package com.application.newsnow.fragment
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.application.newsnow.R
-import com.application.newsnow.adapter.NewsAdapter
+import com.application.newsnow.adapter.SearchAdapter
 import com.application.newsnow.data.repository.FetchNewsRepositoryImpl
 import com.application.newsnow.data.retrofit.RetrofitInstance
 import com.application.newsnow.databinding.FragmentSectionNewsFeedBinding
@@ -47,7 +45,7 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
             SectionNewsViewModelFactory(getNewsByCategoryUseCase = getNewsByCategoryUseCase)
         )[SectionNewsViewModel::class.java]
     }
-    private val sectionAdapter by lazy { NewsAdapter(this) }
+    private val searchAdapter by lazy { SearchAdapter(this) }
     private lateinit var binding: FragmentSectionNewsFeedBinding
 
     override fun onCreateView(
@@ -60,6 +58,7 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
 
         setToolbar(section)
         initRecyclerView()
+        setSearch()
         fetchNewsByCategory(section)
 
         return binding.root
@@ -67,9 +66,7 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
 
     private fun setToolbar(section: Section) {
         with(binding.toolbarNewsSectionFeed) {
-            inflateMenu(R.menu.menu_top_news)
-            title = section.section.uppercase()
-            setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_new_24)
+            title = section.section.replaceFirstChar { it.uppercase() }
             setNavigationOnClickListener { requireActivity().onBackPressed() }
         }
     }
@@ -79,7 +76,22 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
             setHasFixedSize(true)
             val manager = LinearLayoutManager(context)
             layoutManager = manager
-            adapter = sectionAdapter
+            adapter = searchAdapter
+        }
+    }
+
+    private fun setSearch() {
+        with(binding.searchNews) {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    searchAdapter.filter.filter(newText)
+                    return true
+                }
+            })
         }
     }
 
@@ -88,7 +100,7 @@ class SectionNewsFeedFragment : BaseFragment<SectionNewsViewModel>(), OnNewsList
 
         viewModel.liveDataNews.observe(requireActivity()) { response ->
             binding.loadNewsSection.visibility = View.GONE
-            sectionAdapter.addPosters(response.results)
+            searchAdapter.addSearchedNews(response.results)
         }
 
         viewModel.liveDataException.observe(requireActivity()) { error ->
